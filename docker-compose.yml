@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: oficina-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: oficina_db
+      POSTGRES_USER: oficina_user
+      POSTGRES_PASSWORD: oficina_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U oficina_user -d oficina_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - oficina-net
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: oficina-api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/oficina_db
+      SPRING_DATASOURCE_USERNAME: oficina_user
+      SPRING_DATASOURCE_PASSWORD: oficina_password
+      SPRING_PROFILES_ACTIVE: prod
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - oficina-net
+
+volumes:
+  pgdata:
+    name: oficina_pgdata
+
+networks:
+  oficina-net:
+    name: oficina_net
+    driver: bridge
+
