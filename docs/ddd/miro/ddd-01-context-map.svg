@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="100%" height="100%" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrow-solid" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#1e293b"/>
+    </marker>
+    <marker id="arrow-jwt" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="720" fill="#f8fafc" rx="10"/>
+  <text x="600" y="38" text-anchor="middle" font-size="20" font-weight="bold" fill="#0f172a">Mapa de Contextos Delimitados (Bounded Contexts / Context Map)</text>
+  <text x="600" y="60" text-anchor="middle" font-size="13" fill="#475569">Monólito Modular em Clean Architecture — Separação Lógica em 4 Bounded Contexts com Referência por Identidade (UUID)</text>
+
+  <!-- Core Domain -->
+  <rect x="380" y="95" width="440" height="250" rx="12" fill="#fffbeb" stroke="#d97706" stroke-width="2.5" stroke-dasharray="10,5"/>
+  <rect x="400" y="110" width="400" height="32" rx="6" fill="#d97706"/>
+  <text x="600" y="131" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">CORE DOMAIN: Atendimento e Ordem de Serviço</text>
+  
+  <rect x="405" y="155" width="390" height="75" rx="6" fill="#fef3c7" stroke="#b45309" stroke-width="1.5"/>
+  <text x="600" y="176" text-anchor="middle" font-size="13" font-weight="bold" fill="#78350f">Aggregate Root: OrdemServico</text>
+  <text x="600" y="196" text-anchor="middle" font-size="11" fill="#92400e">Entidades Internas: ItemServicoOrdem, ItemPecaOrdem</text>
+  <text x="600" y="214" text-anchor="middle" font-size="11" fill="#92400e">Value Objects: StatusOS (Máquina de Estados), Dinheiro</text>
+
+  <rect x="405" y="242" width="390" height="88" rx="6" fill="#ffffff" stroke="#d97706" stroke-width="1.2"/>
+  <text x="600" y="260" text-anchor="middle" font-size="11" font-weight="bold" fill="#78350f">Casos de Uso Orquestrados (Application Layer):</text>
+  <text x="600" y="278" text-anchor="middle" font-size="10.5" fill="#334155">CriarOrdemServicoUseCase • AdicionarItensOSUseCase</text>
+  <text x="600" y="295" text-anchor="middle" font-size="10.5" fill="#334155">AprovarOrcamentoUseCase (ACID) • AtualizarStatusOSUseCase</text>
+  <text x="600" y="312" text-anchor="middle" font-size="10.5" fill="#334155">ConsultarStatusOSUseCase (LGPD) • CalcularTempoMedioExecucaoUseCase</text>
+
+  <!-- Supporting Domain 1: Clientes e Frota -->
+  <rect x="45" y="420" width="350" height="255" rx="12" fill="#f0f9ff" stroke="#0284c7" stroke-width="2" stroke-dasharray="8,5"/>
+  <rect x="60" y="435" width="320" height="30" rx="6" fill="#0284c7"/>
+  <text x="220" y="455" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">SUPPORTING: Recepção, Clientes e Frota</text>
+
+  <rect x="65" y="480" width="150" height="65" rx="6" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"/>
+  <text x="140" y="502" text-anchor="middle" font-size="12" font-weight="bold" fill="#0c4a6e">Aggregate: Cliente</text>
+  <text x="140" y="520" text-anchor="middle" font-size="10.5" fill="#0369a1">VO: CpfCnpj (Mod 11)</text>
+  <text x="140" y="535" text-anchor="middle" font-size="10" fill="#0369a1">UUID id, nome, email</text>
+
+  <rect x="225" y="480" width="150" height="65" rx="6" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"/>
+  <text x="300" y="502" text-anchor="middle" font-size="12" font-weight="bold" fill="#0c4a6e">Aggregate: Veiculo</text>
+  <text x="300" y="520" text-anchor="middle" font-size="10.5" fill="#0369a1">VO: Placa (Mercosul)</text>
+  <text x="300" y="535" text-anchor="middle" font-size="10" fill="#0369a1">clienteId, km, ano</text>
+
+  <rect x="65" y="560" width="310" height="95" rx="6" fill="#ffffff" stroke="#0284c7" stroke-width="1.2"/>
+  <text x="220" y="580" text-anchor="middle" font-size="11" font-weight="bold" fill="#0c4a6e">Casos de Uso &amp; Invariantes:</text>
+  <text x="220" y="598" text-anchor="middle" font-size="10.5" fill="#334155">• Cadastrar / Buscar / Atualizar / Deletar Cliente</text>
+  <text x="220" y="616" text-anchor="middle" font-size="10.5" fill="#334155">• Cadastrar / Buscar / Atualizar / Deletar Veículo</text>
+  <text x="220" y="634" text-anchor="middle" font-size="10.5" fill="#334155">• Invariante: Veículo pertence a Cliente (clienteId)</text>
+
+  <!-- Supporting Domain 2: Catálogo e Estoque -->
+  <rect x="805" y="420" width="350" height="255" rx="12" fill="#f0fdf4" stroke="#16a34a" stroke-width="2" stroke-dasharray="8,5"/>
+  <rect x="820" y="435" width="320" height="30" rx="6" fill="#16a34a"/>
+  <text x="980" y="455" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">SUPPORTING: Catálogo de Serviços e Estoque</text>
+
+  <rect x="825" y="480" width="150" height="65" rx="6" fill="#dcfce7" stroke="#15803d" stroke-width="1.5"/>
+  <text x="900" y="502" text-anchor="middle" font-size="12" font-weight="bold" fill="#14532d">Aggregate: Peca</text>
+  <text x="900" y="520" text-anchor="middle" font-size="10.5" fill="#166534">VO: Dinheiro, SKU</text>
+  <text x="900" y="535" text-anchor="middle" font-size="10" fill="#166534">saldoEstoque &gt;= 0</text>
+
+  <rect x="985" y="480" width="150" height="65" rx="6" fill="#dcfce7" stroke="#15803d" stroke-width="1.5"/>
+  <text x="1060" y="502" text-anchor="middle" font-size="12" font-weight="bold" fill="#14532d">Aggregate: Servico</text>
+  <text x="1060" y="520" text-anchor="middle" font-size="10.5" fill="#166534">VO: Dinheiro</text>
+  <text x="1060" y="535" text-anchor="middle" font-size="10" fill="#166534">tempoEstimadoMin</text>
+
+  <rect x="825" y="560" width="310" height="95" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="980" y="580" text-anchor="middle" font-size="11" font-weight="bold" fill="#14532d">Casos de Uso &amp; Políticas:</text>
+  <text x="980" y="598" text-anchor="middle" font-size="10.5" fill="#334155">• CRUD de Peças / Insumos e Catálogo de Serviços</text>
+  <text x="980" y="616" text-anchor="middle" font-size="10.5" fill="#334155">• Repor Estoque / Debitar Estoque Atômico</text>
+  <text x="980" y="634" text-anchor="middle" font-size="10.5" fill="#334155">• Alerta de Estoque Mínimo (saldo &lt; estoqueMinimo)</text>
+
+  <!-- Generic Subdomain: IAM / Security -->
+  <rect x="435" y="475" width="330" height="185" rx="12" fill="#faf5ff" stroke="#7e22ce" stroke-width="2" stroke-dasharray="8,5"/>
+  <rect x="450" y="490" width="300" height="28" rx="6" fill="#7e22ce"/>
+  <text x="600" y="509" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#ffffff">GENERIC SUBDOMAIN: Identidade e Acesso (IAM)</text>
+  <rect x="455" y="530" width="290" height="115" rx="6" fill="#ffffff" stroke="#9333ea" stroke-width="1.2"/>
+  <text x="600" y="552" text-anchor="middle" font-size="11" font-weight="bold" fill="#581c87">Componentes de Segurança Stateless:</text>
+  <text x="600" y="572" text-anchor="middle" font-size="10.5" fill="#334155">• AuthController (/api/v1/auth/login)</text>
+  <text x="600" y="590" text-anchor="middle" font-size="10.5" fill="#334155">• JwtService (HMAC-SHA256) &amp; JwtAuthenticationFilter</text>
+  <text x="600" y="608" text-anchor="middle" font-size="10.5" fill="#334155">• CustomUserDetailsService (BCrypt)</text>
+  <text x="600" y="626" text-anchor="middle" font-size="10.5" fill="#334155">• RBAC: ROLE_ADMIN e ROLE_MECANICO</text>
+
+  <!-- Relationships -->
+  <path d="M 440 345 L 260 415" stroke="#1e293b" stroke-width="2" fill="none" marker-end="url(#arrow-solid)"/>
+  <rect x="235" y="362" width="215" height="22" rx="4" fill="#f8fafc"/>
+  <text x="342" y="377" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0f172a">Customer-Supplier (clienteId, veiculoId)</text>
+
+  <path d="M 760 345 L 940 415" stroke="#1e293b" stroke-width="2" fill="none" marker-end="url(#arrow-solid)"/>
+  <rect x="740" y="362" width="230" height="22" rx="4" fill="#f8fafc"/>
+  <text x="855" y="377" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0f172a">Customer-Supplier (pecaId, Debitar Estoque)</text>
+
+  <path d="M 600 475 L 600 352" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5,4" fill="none" marker-end="url(#arrow-jwt)"/>
+  <text x="600" y="415" text-anchor="middle" font-size="10" font-style="italic" fill="#475569">Protege rotas via JWT / RBAC</text>
+</svg>

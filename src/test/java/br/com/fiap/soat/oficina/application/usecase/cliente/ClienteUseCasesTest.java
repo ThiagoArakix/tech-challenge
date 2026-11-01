@@ -151,4 +151,17 @@ class ClienteUseCasesTest {
         assertThatThrownBy(() -> atualizarClienteUseCase.executar(id, "Nome", "email@test.com", "11999990000"))
                 .isInstanceOf(RecursoNaoEncontradoException.class);
     }
+
+    @Test
+    @DisplayName("Deve deletar cliente existente e falhar quando inexistente")
+    void deveDeletarCliente() {
+        when(clienteRepository.buscarPorId(clienteExistente.getId())).thenReturn(Optional.of(clienteExistente));
+        atualizarClienteUseCase.deletar(clienteExistente.getId());
+        verify(clienteRepository).deletar(clienteExistente.getId());
+
+        UUID inexistente = UUID.randomUUID();
+        when(clienteRepository.buscarPorId(inexistente)).thenReturn(Optional.empty());
+        assertThatThrownBy(() -> atualizarClienteUseCase.deletar(inexistente))
+                .isInstanceOf(RecursoNaoEncontradoException.class);
+    }
 }

@@ -238,6 +238,21 @@ class OrdemServicoTest {
         }
 
         @Test
+        @DisplayName("Deve permitir rejeitar orçamento quando AGUARDANDO_APROVACAO e falhar em outros status")
+        void deveTestarRejeicaoOrcamento() {
+            assertThatThrownBy(() -> ordemServico.rejeitar())
+                    .isInstanceOf(TransicaoStatusInvalidaException.class);
+
+            ordemServico.iniciarDiagnostico();
+            ordemServico.registrarDiagnostico("Troca de correia dentada");
+            ordemServico.adicionarItemServico(ItemServicoOrdem.criarNovo("Troca correia", 1, Dinheiro.de(250.00)));
+            ordemServico.enviarParaAprovacao();
+
+            ordemServico.rejeitar();
+            assertThat(ordemServico.getStatus()).isEqualTo(StatusOS.CANCELADA);
+        }
+
+        @Test
         @DisplayName("Deve verificar igualdade e hash code de OrdemServico")
         void deveVerificarIgualdade() {
             UUID id = UUID.randomUUID();

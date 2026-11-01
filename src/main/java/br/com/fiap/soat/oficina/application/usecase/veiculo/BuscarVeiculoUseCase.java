@@ -36,5 +36,31 @@ public class BuscarVeiculoUseCase {
                 .map(VeiculoOutput::deDominio)
                 .toList();
     }
+
+    public List<VeiculoOutput> listarTodos() {
+        return veiculoRepository.listarTodos().stream()
+                .map(VeiculoOutput::deDominio)
+                .toList();
+    }
+
+    public VeiculoOutput atualizar(UUID id, String novaMarca, String novoModelo, String novaCor, Integer novaQuilometragem) {
+        Veiculo veiculo = veiculoRepository.buscarPorId(id)
+                .orElseThrow(() -> RecursoNaoEncontradoException.de("Veículo", id));
+
+        veiculo.atualizarDados(novaMarca, novoModelo, novaCor);
+        if (novaQuilometragem != null) {
+            veiculo.atualizarQuilometragem(novaQuilometragem);
+        }
+
+        Veiculo salvo = veiculoRepository.salvar(veiculo);
+        return VeiculoOutput.deDominio(salvo);
+    }
+
+    public void deletar(UUID id) {
+        if (veiculoRepository.buscarPorId(id).isEmpty()) {
+            throw RecursoNaoEncontradoException.de("Veículo", id);
+        }
+        veiculoRepository.deletar(id);
+    }
 }
 

@@ -10,6 +10,7 @@ import br.com.fiap.soat.oficina.application.usecase.os.ListarOrdensServicoUseCas
 import br.com.fiap.soat.oficina.domain.repository.ClienteRepositoryPort;
 import br.com.fiap.soat.oficina.domain.repository.OrdemServicoRepositoryPort;
 import br.com.fiap.soat.oficina.domain.repository.PecaRepositoryPort;
+import br.com.fiap.soat.oficina.domain.repository.ServicoRepositoryPort;
 import br.com.fiap.soat.oficina.domain.repository.VeiculoRepositoryPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +29,9 @@ public class UseCaseBeanConfig {
     @Bean
     public AdicionarItensOSUseCase adicionarItensOSUseCase(
             OrdemServicoRepositoryPort ordemServicoRepository,
-            PecaRepositoryPort pecaRepository) {
-        return new AdicionarItensOSUseCase(ordemServicoRepository, pecaRepository);
+            PecaRepositoryPort pecaRepository,
+            ServicoRepositoryPort servicoRepository) {
+        return new AdicionarItensOSUseCase(ordemServicoRepository, pecaRepository, servicoRepository);
     }
 
     @Bean

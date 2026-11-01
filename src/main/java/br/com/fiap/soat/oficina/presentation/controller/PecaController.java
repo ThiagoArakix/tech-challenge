@@ -5,15 +5,18 @@ import br.com.fiap.soat.oficina.application.usecase.peca.CadastrarPecaUseCase;
 import br.com.fiap.soat.oficina.application.usecase.peca.GerenciarEstoquePecaUseCase;
 import br.com.fiap.soat.oficina.application.usecase.peca.ListarPecasUseCase;
 import br.com.fiap.soat.oficina.presentation.request.AjusteEstoqueRequest;
+import br.com.fiap.soat.oficina.presentation.request.AtualizarPecaRequest;
 import br.com.fiap.soat.oficina.presentation.request.CriarPecaRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +28,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/pecas")
-@Tag(name = "Peças", description = "Endpoints para catálogo e controle de estoque de peças")
+@Tag(name = "Peças", description = "Endpoints para catálogo e controle de estoque de peças e insumos")
 public class PecaController {
 
     private final CadastrarPecaUseCase cadastrarPecaUseCase;
@@ -59,10 +62,26 @@ public class PecaController {
         return ResponseEntity.ok(listarPecasUseCase.listarTodas());
     }
 
+    @GetMapping("/{id}")
+    @Operation(summary = "Busca peça do catálogo por ID (UUID)")
+    public ResponseEntity<PecaOutput> buscarPorId(@PathVariable UUID id) {
+        return ResponseEntity.ok(listarPecasUseCase.buscarPorId(id));
+    }
+
     @GetMapping("/abaixo-minimo")
     @Operation(summary = "Lista peças com saldo de estoque abaixo do mínimo configurado")
     public ResponseEntity<List<PecaOutput>> listarAbaixoDoMinimo() {
         return ResponseEntity.ok(listarPecasUseCase.listarAbaixoDoMinimo());
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Atualiza dados cadastrais, valor unitário e estoque mínimo de uma peça")
+    public ResponseEntity<PecaOutput> atualizar(
+            @PathVariable UUID id,
+            @RequestBody @Valid AtualizarPecaRequest request) {
+        PecaOutput output = gerenciarEstoquePecaUseCase.atualizar(
+                id, request.nome(), request.descricao(), request.valorUnitario(), request.estoqueMinimo());
+        return ResponseEntity.ok(output);
     }
 
     @PatchMapping("/{id}/repor-estoque")
@@ -81,6 +100,13 @@ public class PecaController {
             @RequestBody @Valid AjusteEstoqueRequest request) {
         PecaOutput output = gerenciarEstoquePecaUseCase.debitarEstoque(id, request.quantidade());
         return ResponseEntity.ok(output);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Remove uma peça do catálogo pelo ID")
+    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
+        gerenciarEstoquePecaUseCase.deletar(id);
+        return ResponseEntity.noContent().build();
     }
 }
 

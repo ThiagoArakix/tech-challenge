@@ -52,6 +52,12 @@ public class AtualizarStatusOSUseCase {
         return salvarERetornar(os);
     }
 
+    public OrdemServicoOutput rejeitarOrcamento(UUID osId) {
+        OrdemServico os = buscarOrdem(osId);
+        os.rejeitar();
+        return salvarERetornar(os);
+    }
+
     private OrdemServico buscarOrdem(UUID osId) {
         return ordemServicoRepository.buscarPorId(osId)
                 .orElseThrow(() -> RecursoNaoEncontradoException.de("Ordem de Serviço", osId));

@@ -1,8 +1,8 @@
 # Tech Challenge SOAT - Fase 1: Sistema de Gestão de Oficina Mecânica
 
-Sistema desenvolvido para atender aos requisitos da **Fase 1 do Tech Challenge da Pós-Graduação em Software Architecture (SOAT) da FIAP**.
+Projeto da **Fase 1 do Tech Challenge da Pós-Graduação em Software Architecture (SOAT) da FIAP**.
 
-O projeto consiste em uma API RESTful de alta performance e robustez arquitetural para a gestão completa de uma oficina mecânica, contemplando o cadastro de clientes, gestão de veículos, catálogo e controle físico de estoque de peças, fluxo de ordens de serviço orquestrado por máquina de estados e cálculo de métricas operacionais de atendimento.
+API RESTful para gestão de uma oficina mecânica, contemplando cadastro de clientes, gestão de veículos, catálogo de serviços, controle de estoque de peças, fluxo de ordens de serviço com máquina de estados e cálculo do tempo médio de execução.
 
 ---
 
@@ -19,33 +19,56 @@ O projeto consiste em uma API RESTful de alta performance e robustez arquitetura
 9. [Decisão e Justificativa do Banco de Dados PostgreSQL](#9-decisão-e-justificativa-do-banco-de-dados-postgresql)
 10. [Usuários e Credenciais de Demonstração](#10-usuários-e-credenciais-de-demonstração)
 11. [Estrutura de Diretórios do Projeto](#11-estrutura-de-diretórios-do-projeto)
-12. [Documentação DDD e Artefatos Arquiteturais](#12-documentação-ddd-e-artefatos-arquiteturais)
+12. [Documentação DDD, Arquitetura e Segurança](#12-documentação-ddd-arquitetura-e-segurança)
 13. [Link do Vídeo Demonstrativo](#13-link-do-vídeo-demonstrativo)
 
 ---
 
 ## 1. Objetivo
 
-Implementar uma solução de software escalável, sustentável e rigorosamente alinhada às melhores práticas da engenharia de software contemporânea:
-- Aplicação estrita dos princípios de **Domain-Driven Design (DDD)** para mapeamento de linguagem ubíqua e invariantes de negócio.
-- Isolamento absoluto da camada de domínio em relação a frameworks e bancos de dados (**Clean Architecture**).
-- Garantia de qualidade atestada por cobertura de testes automatizados superior a **80%** (com meta JaCoCo atingida de **>95% em linhas** e **>85% em branches**).
-- Empacotamento conteinerizado pronto para execução em qualquer ambiente via **Docker** e **Docker Compose**.
+Desenvolver o backend de gestão da oficina mecânica aplicando:
+- **Domain-Driven Design (DDD)** para modelagem da linguagem ubíqua, agregados e regras de negócio.
+- **Clean Architecture** com camada de domínio desacoplada de frameworks e banco de dados.
+- **Testes automatizados** unitários e de integração (meta JaCoCo atingida de **96.77% em linhas** e **83.54% em branches**).
+- **Docker** e **Docker Compose** para execução padronizada da API e do banco de dados.
 
 ---
 
 ## 2. Descrição da Solução
 
-O sistema provê suporte aos processos essenciais da operação de uma oficina automotiva:
-* **Gestão de Clientes e Veículos:** Cadastro de pessoas físicas e jurídicas (validação matemática estrita de CPF/CNPJ), associação de veículos com validação de placa tradicional (`ABC-1234`) e Mercosul (`ABC1D23`), e garantia de que o veículo vinculado a uma Ordem de Serviço pertença obrigatoriamente ao cliente solicitante.
-* **Controle de Catálogo e Inventário:** Registro de peças com controle de saldo de estoque, estoque mínimo e preço unitário. O sistema impede que o saldo fique negativo e emite alertas quando peças estão abaixo do limite operacional de segurança.
+O sistema cobre os processos operacionais da oficina automotiva:
+* **Gestão de Clientes e Veículos:** Cadastro, consulta por ID/CPF/CNPJ/Placa, atualização e remoção de clientes (pessoas físicas e jurídicas com validação dos dígitos verificadores) e veículos (validação de placa tradicional `ABC-1234` e Mercosul `ABC1D23`), garantindo que o veículo vinculado a uma Ordem de Serviço pertença ao cliente solicitante.
+* **Catálogo de Serviços e Controle de Peças/Insumos (CRUD Completo + Estoque):**
+  - **Catálogo de Serviços (`/api/v1/servicos`):** CRUD completo de serviços padronizados da oficina (código único, nome, descrição e valor unitário de mão de obra).
+  - **Peças e Insumos (`/api/v1/pecas`):** CRUD completo de peças com controle físico de saldo de estoque, estoque mínimo e valor unitário. O sistema impede saldos negativos e emite alertas quando peças estão abaixo do limite operacional de segurança.
 * **Máquina de Estados Finita da Ordem de Serviço (OS):**
-  $$\text{RECEBIDA} \longrightarrow \text{EM\_DIAGNOSTICO} \longrightarrow \text{AGUARDANDO\_APROVACAO} \longrightarrow \text{EM\_EXECUCAO} \longrightarrow \text{FINALIZADA} \longrightarrow \text{ENTREGUE}$$
-  - Permite adição e remoção de serviços e peças durante o diagnóstico técnico.
-  - Bloqueia modificações de itens após submissão do orçamento.
-  - Disponibiliza endpoint público para o cliente consultar o orçamento sem autenticação e aprovar a execução dos reparos.
-  - Efetua a baixa física automática de cada peça no inventário no exato momento da aprovação pelo cliente.
-* **Métricas Operacionais:** Cálculo em tempo real do **tempo médio de execução** das manutenções, computando a duração entre a abertura (`dataAbertura`) e o encerramento técnico (`dataFinalizacao`) de ordens finalizadas.
+  Orquestração estrita de ciclo de vida com transições unidirecionais controladas:
+
+  `RECEBIDA` ➔ `EM_DIAGNOSTICO` ➔ `AGUARDANDO_APROVACAO` ➔ `EM_EXECUCAO` ➔ `FINALIZADA` ➔ `ENTREGUE`
+  *(com possibilidade de transição para `CANCELADA` por cancelamento ou rejeição do orçamento)*
+
+  ```mermaid
+  stateDiagram-v2
+      direction LR
+      [*] --> RECEBIDA
+      RECEBIDA --> EM_DIAGNOSTICO: Iniciar Diagnóstico
+      EM_DIAGNOSTICO --> AGUARDANDO_APROVACAO: Submeter Orçamento
+      AGUARDANDO_APROVACAO --> EM_EXECUCAO: Aprovar Orçamento (Baixa Estoque)
+      AGUARDANDO_APROVACAO --> CANCELADA: Rejeitar Orçamento / Cancelar
+      EM_EXECUCAO --> FINALIZADA: Finalizar Execução
+      FINALIZADA --> ENTREGUE: Registrar Entrega
+      ENTREGUE --> [*]
+
+      RECEBIDA --> CANCELADA: Cancelar
+      EM_DIAGNOSTICO --> CANCELADA: Cancelar
+      CANCELADA --> [*]
+  ```
+
+  - Permite adição e remoção de serviços (via catálogo `servicoId` ou avulsos) e peças durante o diagnóstico técnico (`EM_DIAGNOSTICO`).
+  - Bloqueia modificações de itens após submissão do orçamento (`AGUARDANDO_APROVACAO`).
+  - Disponibiliza endpoints públicos (`/api/v1/public/ordens-servico/{id}/**`) para o cliente consultar o orçamento detalhado sem exposição de dados sensíveis (LGPD), bem como **aprovar** ou **rejeitar** o orçamento.
+  - Efetua a baixa física automática e atômica (`@Transactional`) de cada peça no inventário no exato momento da aprovação pelo cliente.
+* **Métricas Operacionais:** Cálculo em tempo real do **tempo médio de execução** dos serviços (`GET /api/v1/ordens-servico/metricas/tempo-medio`), computando a duração $\Delta t = \text{dataFinalizacao} - \text{dataAprovacao}$ das ordens concluídas (`FINALIZADA` e `ENTREGUE`).
 
 ---
 
@@ -67,7 +90,7 @@ flowchart TD
     end
 
     subgraph Domain["3. Camada de Domínio Puro (Domain Core)"]
-        Aggregates["Agregados: OrdemServico, Cliente, Veiculo, Peca"]
+        Aggregates["Agregados: OrdemServico, Cliente, Veiculo, Peca, Servico"]
         ValueObjects["Value Objects: Dinheiro, CpfCnpj, Placa, StatusOS"]
         Ports["Repository Ports (Interfaces)"]
     end
@@ -143,7 +166,7 @@ docker compose down
 
 ## 7. Instruções para Execução dos Testes Automatizados
 
-O projeto conta com mais de 220 testes unitários e de integração de ponta a ponta. O plugin **JaCoCo** está configurado na fase `verify` com validação de cobertura mínima estrita de **80%** para linhas e branches.
+O projeto conta com **251 testes unitários e de integração de ponta a ponta**. O plugin **JaCoCo** está configurado na fase `verify` com validação de cobertura mínima estrita de **80%** para linhas e branches.
 
 ### Executando no Ambiente com Maven Instalado:
 ```bash
@@ -163,13 +186,14 @@ target/site/jacoco/index.html
 ```
 
 **Métricas Atingidas:**
-* **Cobertura de Linhas (Line Coverage):** **95.57%** (meta: $\ge 80\%$)
-* **Cobertura de Decisões (Branch Coverage):** **85.23%** (meta: $\ge 80\%$)
-* **Total de Testes:** 227 testes (0 falhas, 0 erros, 0 ignorados).
+* **Cobertura de Linhas (Line Coverage):** **96.77%** (meta: ≥ 80%)
+* **Cobertura de Decisões (Branch Coverage):** **83.54%** (meta: ≥ 80%)
+* **Cobertura de Entidades de Domínio (`domain.entity`):** **98.77%** de linhas e **90.40%** de branches
+* **Total de Testes:** **251 testes** (0 falhas, 0 erros, 0 ignorados).
 
 ---
 
-## 8. Acesso ao Swagger e Documentação da API
+## 8. Acesso ao Swagger e Principais Endpoints da API
 
 Com a aplicação em execução (`docker compose up`), a documentação interativa OpenAPI 3 / Swagger UI estará disponível em:
 
@@ -177,6 +201,19 @@ Com a aplicação em execução (`docker compose up`), a documentação interati
 * **OpenAPI Spec (JSON):** [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
 
 > **Dica de Uso:** Para testar endpoints administrativos e operacionais no Swagger, utilize o botão **Authorize** informando o token retornado pelo endpoint `POST /api/v1/auth/login`.
+
+### Resumo dos Contratos RESTful:
+
+| Contexto | Método e Endpoint | Acesso | Descrição |
+| :--- | :--- | :---: | :--- |
+| **Autenticação** | `POST /api/v1/auth/login` | Público | Emite token Bearer JWT (`ROLE_ADMIN` ou `ROLE_MECANICO`). |
+| **Clientes (CRUD)** | `POST`, `GET`, `PUT`, `DELETE /api/v1/clientes/**`<br>`GET /api/v1/clientes/documento/{documento}` | JWT | Cadastro, listagem, busca por ID ou CPF/CNPJ, atualização e exclusão. |
+| **Veículos (CRUD)** | `POST`, `GET`, `PUT`, `DELETE /api/v1/veiculos/**`<br>`GET /api/v1/veiculos/placa/{placa}`<br>`GET /api/v1/veiculos/cliente/{clienteId}` | JWT | Cadastro, listagem geral/por cliente, busca por placa, atualização e exclusão. |
+| **Catálogo de Serviços (CRUD)** | `POST`, `GET`, `PUT`, `DELETE /api/v1/servicos/**`<br>`GET /api/v1/servicos/codigo/{codigo}` | JWT | CRUD completo de serviços padronizados da oficina. |
+| **Peças e Estoque (CRUD)** | `POST`, `GET`, `PUT`, `DELETE /api/v1/pecas/**`<br>`PATCH /api/v1/pecas/{id}/repor-estoque`<br>`PATCH /api/v1/pecas/{id}/debitar-estoque`<br>`GET /api/v1/pecas/abaixo-minimo` | JWT | CRUD de peças/insumos, reposição/baixa avulsa de saldo e alerta de estoque crítico. |
+| **Ordens de Serviço (Admin)** | `POST`, `GET /api/v1/ordens-servico/**`<br>`POST /api/v1/ordens-servico/{id}/iniciar-diagnostico`<br>`PATCH /api/v1/ordens-servico/{id}/diagnostico`<br>`POST /api/v1/ordens-servico/{id}/itens/servicos`<br>`DELETE /api/v1/ordens-servico/{id}/itens/servicos/{itemId}`<br>`POST /api/v1/ordens-servico/{id}/itens/pecas`<br>`DELETE /api/v1/ordens-servico/{id}/itens/pecas/{itemId}`<br>`POST /api/v1/ordens-servico/{id}/submeter-aprovacao`<br>`POST /api/v1/ordens-servico/{id}/aprovar`<br>`POST /api/v1/ordens-servico/{id}/rejeitar`<br>`POST /api/v1/ordens-servico/{id}/finalizar`<br>`POST /api/v1/ordens-servico/{id}/entregar`<br>`POST /api/v1/ordens-servico/{id}/cancelar` | JWT | Ciclo completo de criação, diagnóstico, inclusão/remoção de serviços e peças, orçamento, aprovação/rejeição, finalização e entrega. |
+| **Métricas Operacionais** | `GET /api/v1/ordens-servico/metricas/tempo-medio` | JWT (`ADMIN`) | Monitoramento do tempo médio de execução ($\text{dataFinalizacao} - \text{dataAprovacao}$). |
+| **Acompanhamento do Cliente (Público)** | `GET /api/v1/public/ordens-servico/{id}/status`<br>`POST /api/v1/public/ordens-servico/{id}/aprovar`<br>`POST /api/v1/public/ordens-servico/{id}/rejeitar` | Público | Consulta de progresso e orçamento pelo cliente (LGPD-safe), aprovação e rejeição. |
 
 ---
 
@@ -200,7 +237,7 @@ Para fins de avaliação, testes de integração e demonstração no Swagger, o 
 
 | Usuário | Senha | Papel (Role) | Permissões / Escopo |
 | :--- | :--- | :--- | :--- |
-| `admin` | `admin123` | `ROLE_ADMIN` | Acesso total: gestão de clientes, veículos, catálogo de peças e **consulta de métricas de tempo médio** (`/api/v1/ordens-servico/metricas/**`). |
+| `admin` | `admin123` | `ROLE_ADMIN` | Acesso total: gestão de clientes, veículos, catálogo de serviços e peças, ordens de serviço e **consulta de métricas de tempo médio** (`/api/v1/ordens-servico/metricas/**`). |
 | `mecanico` | `mecanico123` | `ROLE_MECANICO` | Operacional: abertura de OS, início de diagnóstico, adição/remoção de peças e serviços, finalização técnica e entrega. |
 
 ### Como Autenticar:
@@ -227,10 +264,19 @@ oficina-mecanica/
 ├── README.md
 ├── docs/
 │   ├── ddd/
-│   │   ├── linguagem-ubiqua.md            # Glossário formal de termos e anti-glossário
-│   │   └── event-storming.md              # Notação de cores e fluxos do Event Storming
+│   │   ├── linguagem-ubiqua.md            # Glossário de termos, Bounded Contexts e rastreabilidade
+│   │   ├── event-storming.md              # Event Storming dos fluxos do domínio (Markdown)
+│   │   ├── event-storming.pdf             # Event Storming em PDF
+│   │   ├── diagramas.md                   # Diagramas estratégicos, táticos, sequência e DER (Markdown)
+│   │   └── diagramas.pdf                  # Diagramas DDD e C4 em PDF
+│   ├── security/
+│   │   ├── relatorio-vulnerabilidades.md  # Relatório de análise de vulnerabilidades (SCA, SAST, Docker, OWASP)
+│   │   ├── relatorio-vulnerabilidades.pdf # Relatório de vulnerabilidades em PDF
+│   │   ├── relatorio-sonarqube.md         # Relatório de Qualidade e Segurança Estática (SonarQube & JaCoCo)
+│   │   └── relatorio-sonarqube.pdf        # Relatório do SonarQube em PDF (com Dashboard Quality Gate)
 │   └── architecture/
-│       ├── c4-model.md                    # Níveis 1, 2 e 3 do Modelo C4
+│       ├── c4-model.md                    # Modelo C4 da Arquitetura
+│       ├── requisitos-nao-funcionais.md   # Requisitos Não Funcionais (DEUS / DOA / LER)
 │       └── adrs/
 │           ├── ADR-001-clean-architecture-monolith.md
 │           ├── ADR-002-banco-de-dados-postgresql.md
@@ -239,13 +285,13 @@ oficina-mecanica/
     ├── main/
     │   ├── java/br/com/fiap/soat/oficina/
     │   │   ├── domain/                    # 1. Domínio Puro (Sem Frameworks)
-    │   │   │   ├── entity/                # Entidades e Agregados
+    │   │   │   ├── entity/                # Entidades e Agregados (OrdemServico, Cliente, Veiculo, Peca, Servico)
     │   │   │   ├── exception/             # Exceções de Domínio
     │   │   │   ├── repository/            # Interfaces de Repositório (Ports)
     │   │   │   └── valueobject/           # Records imutáveis (Dinheiro, Placa, CpfCnpj, StatusOS)
     │   │   ├── application/               # 2. Casos de Uso (Application POJOs)
     │   │   │   ├── dto/                   # Inputs e Outputs
-    │   │   │   └── usecase/               # Use Cases organizados por contexto
+    │   │   │   └── usecase/               # Use Cases organizados por contexto (os, cliente, veiculo, peca, servico)
     │   │   ├── presentation/              # 3. Apresentação (REST Controllers)
     │   │   │   ├── controller/            # Controllers Spring MVC
     │   │   │   ├── handler/               # GlobalExceptionHandler (RFC 7807)
@@ -260,21 +306,25 @@ oficina-mecanica/
     │       └── db/migration/
     │           └── V1__init_schema.sql    # DDL inicial versionado pelo Flyway
     └── test/
-        ├── java/br/com/fiap/soat/oficina/ # Suíte de testes unitários e de integração (>95% cobertura)
+        ├── java/br/com/fiap/soat/oficina/ # Suíte de 251 testes unitários e de integração (>96% cobertura)
         └── resources/
             └── application-test.yml       # Configurações do perfil H2 para testes
 ```
 
 ---
 
-## 12. Documentação DDD e Artefatos Arquiteturais
+## 12. Documentação DDD, Arquitetura e Segurança
 
-A documentação analítica de arquitetura e design de software encontra-se versionada no repositório:
+A documentação de arquitetura, DDD e segurança está versionada no repositório:
 
-* 📖 **[Linguagem Ubíqua (Glossário e Anti-Glossário)](docs/ddd/linguagem-ubiqua.md):** Definição semântica formal dos termos de negócio e conceitos evitados.
-* ⚡ **[Event Storming](docs/ddd/event-storming.md):** Mapeamento cronológico dos 3 fluxos críticos com eventos, comandos, atores, agregados e políticas.
-* 🏛️ **[Modelo C4 (Contexto, Contêineres e Componentes)](docs/architecture/c4-model.md):** Diagramas conceituais dos níveis 1, 2 e 3.
-* 📋 **[Requisitos Não Funcionais (DEUS / DOA / LER)](docs/architecture/requisitos-nao-funcionais.md):** Classificação em Produto, Organizacional e Externo com evidências no código.
+* 🎨 **Quadro Miro:** [https://miro.com/app/board/uXjVETBYsng=/?share_link_id=296220385966](https://miro.com/app/board/uXjVETBYsng=/?share_link_id=296220385966)
+* 📖 **[Linguagem Ubíqua, Bounded Contexts e Rastreabilidade](docs/ddd/linguagem-ubiqua.md)**
+* ⚡ **[Event Storming (Markdown)](docs/ddd/event-storming.md)** | **[Event Storming (PDF)](docs/ddd/event-storming.pdf)**
+* 📐 **[Diagramas DDD e Arquitetura (Markdown)](docs/ddd/diagramas.md)** | **[Diagramas DDD (PDF)](docs/ddd/diagramas.pdf)**
+* 🛡️ **[Relatório de Análise de Vulnerabilidades — OWASP/SCA/Container (Markdown)](docs/security/relatorio-vulnerabilidades.md)** | **[Relatório (PDF)](docs/security/relatorio-vulnerabilidades.pdf)**
+* 📊 **[Relatório de Qualidade e Segurança Estática — SonarQube & JaCoCo (Markdown)](docs/security/relatorio-sonarqube.md)** | **[Relatório SonarQube (PDF)](docs/security/relatorio-sonarqube.pdf)**
+* 🏛️ **[Modelo C4 (Contexto, Contêineres e Componentes)](docs/architecture/c4-model.md)**
+* 📋 **[Requisitos Não Funcionais (DEUS / DOA / LER)](docs/architecture/requisitos-nao-funcionais.md)**
 * 📜 **Architecture Decision Records (ADRs):**
   - [ADR-001: Clean Architecture em Monólito Modular](docs/architecture/adrs/ADR-001-clean-architecture-monolith.md)
   - [ADR-002: Banco de Dados Relacional PostgreSQL 16 com Transações ACID](docs/architecture/adrs/ADR-002-banco-de-dados-postgresql.md)
@@ -284,7 +334,8 @@ A documentação analítica de arquitetura e design de software encontra-se vers
 
 ## 13. Link do Vídeo Demonstrativo
 
-Conforme exigido no edital da Fase 1, foi gravado um vídeo demonstrativo detalhando a arquitetura, o desenho DDD, a execução dos testes automatizados e o funcionamento da API via Swagger:
+Vídeo de apresentação da arquitetura, modelagem DDD, testes automatizados e demonstração da API:
 
 * 🎥 **Link do Vídeo no YouTube:** [https://www.youtube.com/watch?v=SUBSTITUIR_LINK_DO_VIDEO](https://www.youtube.com/watch?v=SUBSTITUIR_LINK_DO_VIDEO)
+
 

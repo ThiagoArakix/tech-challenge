@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 820" width="100%" height="100%" font-family="Segoe UI, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="c4-arrow" markerWidth="12" markerHeight="10" refX="10" refY="5" orient="auto">
+      <polygon points="0 0, 12 5, 0 10" fill="#666666"/>
+    </marker>
+    <filter id="shadow" x="-3%" y="-3%" width="108%" height="108%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000000" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="1440" height="820" fill="#ffffff"/>
+
+  <!-- Top Left Person: Cliente da Oficina (x=60..360, y=100..255) -->
+  <g filter="url(#shadow)">
+    <circle cx="210" cy="70" r="35" fill="#7a0c06" stroke="#520602" stroke-width="2"/>
+    <rect x="60" y="100" width="300" height="155" rx="18" fill="#7a0c06" stroke="#520602" stroke-width="2"/>
+    <text x="210" y="138" text-anchor="middle" font-size="16.5" font-weight="bold" fill="#ffffff">Cliente da Oficina</text>
+    <text x="210" y="157" text-anchor="middle" font-size="11.5" fill="#fecaca">[Person]</text>
+    <text x="210" y="185" text-anchor="middle" font-size="12" fill="#f8fafc">Proprietário do veículo (PF/PJ)</text>
+    <text x="210" y="203" text-anchor="middle" font-size="12" fill="#f8fafc">que consulta o status da OS e</text>
+    <text x="210" y="221" text-anchor="middle" font-size="12" fill="#f8fafc">aprova/rejeita o orçamento.</text>
+  </g>
+
+  <!-- Top Center Person: Atendente / Mecânico (x=570..870, y=100..255) -->
+  <g filter="url(#shadow)">
+    <circle cx="720" cy="70" r="35" fill="#7a0c06" stroke="#520602" stroke-width="2"/>
+    <rect x="570" y="100" width="300" height="155" rx="18" fill="#7a0c06" stroke="#520602" stroke-width="2"/>
+    <text x="720" y="138" text-anchor="middle" font-size="16.5" font-weight="bold" fill="#ffffff">Atendente / Mecânico</text>
+    <text x="720" y="157" text-anchor="middle" font-size="11.5" fill="#fecaca">[Person]</text>
+    <text x="720" y="185" text-anchor="middle" font-size="12" fill="#f8fafc">Equipe operacional que abre OS,</text>
+    <text x="720" y="203" text-anchor="middle" font-size="12" fill="#f8fafc">registra diagnóstico técnico, orça</text>
+    <text x="720" y="221" text-anchor="middle" font-size="12" fill="#f8fafc">peças/serviços e entrega o veículo.</text>
+  </g>
+
+  <!-- Top Right Person: Administrador / Almoxarife (x=1080..1380, y=100..255) -->
+  <g filter="url(#shadow)">
+    <circle cx="1230" cy="70" r="35" fill="#7a0c06" stroke="#520602" stroke-width="2"/>
+    <rect x="1080" y="100" width="300" height="155" rx="18" fill="#7a0c06" stroke="#520602" stroke-width="2"/>
+    <text x="1230" y="138" text-anchor="middle" font-size="16.5" font-weight="bold" fill="#ffffff">Administrador / Almoxarife</text>
+    <text x="1230" y="157" text-anchor="middle" font-size="11.5" fill="#fecaca">[Person]</text>
+    <text x="1230" y="185" text-anchor="middle" font-size="12" fill="#f8fafc">Gestor responsável pelo catálogo</text>
+    <text x="1230" y="203" text-anchor="middle" font-size="12" fill="#f8fafc">de serviços, controle de estoque de</text>
+    <text x="1230" y="221" text-anchor="middle" font-size="12" fill="#f8fafc">peças e indicadores de SLA.</text>
+  </g>
+
+  <!-- Bottom Left Software System: Serviço de Notificação / E-mail (x=60..360, y=490..665) -->
+  <g filter="url(#shadow)">
+    <rect x="60" y="490" width="300" height="175" rx="6" fill="#999999" stroke="#6b6b6b" stroke-width="2"/>
+    <text x="210" y="532" text-anchor="middle" font-size="15.5" font-weight="bold" fill="#ffffff">Serviço de Notificação / E-mail</text>
+    <text x="210" y="551" text-anchor="middle" font-size="11.5" fill="#e2e8f0">[Software System]</text>
+    <text x="210" y="582" text-anchor="middle" font-size="12" fill="#ffffff">Envia o identificador público (UUID)</text>
+    <text x="210" y="600" text-anchor="middle" font-size="12" fill="#ffffff">da Ordem de Serviço e avisos de</text>
+    <text x="210" y="618" text-anchor="middle" font-size="12" fill="#ffffff">orçamento disponível ao cliente.</text>
+  </g>
+
+  <!-- Bottom Center Software System (Target): Sistema de Gestão da Oficina (x=550..890, y=490..665) -->
+  <g filter="url(#shadow)">
+    <rect x="550" y="490" width="340" height="175" rx="6" fill="#b81d13" stroke="#7f120b" stroke-width="2.5"/>
+    <text x="720" y="532" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">Sistema de Gestão da Oficina</text>
+    <text x="720" y="551" text-anchor="middle" font-size="12" fill="#fecaca">[Software System]</text>
+    <text x="720" y="582" text-anchor="middle" font-size="12.5" fill="#ffffff">Gerencia clientes, veículos, catálogo de</text>
+    <text x="720" y="600" text-anchor="middle" font-size="12.5" fill="#ffffff">serviços, estoque de peças, ordens de</text>
+    <text x="720" y="618" text-anchor="middle" font-size="12.5" fill="#ffffff">serviço, orçamentos e tempo médio.</text>
+  </g>
+
+  <!-- Bottom Right Software System: Provedor de Token JWT (x=1080..1380, y=490..665) -->
+  <g filter="url(#shadow)">
+    <rect x="1080" y="490" width="300" height="175" rx="6" fill="#999999" stroke="#6b6b6b" stroke-width="2"/>
+    <text x="1230" y="532" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">Provedor de Token JWT</text>
+    <text x="1230" y="551" text-anchor="middle" font-size="11.5" fill="#e2e8f0">[Software System]</text>
+    <text x="1230" y="582" text-anchor="middle" font-size="12" fill="#ffffff">Emite e valida tokens Bearer JWT</text>
+    <text x="1230" y="600" text-anchor="middle" font-size="12" fill="#ffffff">HMAC-SHA256 stateless para</text>
+    <text x="1230" y="618" text-anchor="middle" font-size="12" fill="#ffffff">controle de acesso RBAC.</text>
+  </g>
+
+  <!-- Relationships (Zero Crossing Lines, 190px Horizontal Gaps, 235px Vertical Gap) -->
+  <!-- 1. Serviço de Notificação -> Cliente (Straight Vertical Left: x=190) -->
+  <line x1="190" y1="490" x2="190" y2="262" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="90" y="345" width="200" height="52" fill="#ffffff" rx="4"/>
+  <text x="190" y="362" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">Envia código da OS e aviso</text>
+  <text x="190" y="377" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">de orçamento para</text>
+  <text x="190" y="392" text-anchor="middle" font-size="10.5" fill="#666666">[SMTP / HTTPS]</text>
+
+  <!-- 2. Cliente -> Sistema de Gestão (Diagonal Left-Center) -->
+  <line x1="310" y1="255" x2="610" y2="485" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="355" y="345" width="210" height="52" fill="#ffffff" rx="4"/>
+  <text x="460" y="362" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">Consulta status público da OS</text>
+  <text x="460" y="377" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">e aprova/rejeita orçamento</text>
+  <text x="460" y="392" text-anchor="middle" font-size="10.5" fill="#666666">[HTTPS / JSON (Público)]</text>
+
+  <!-- 3. Atendente / Mecânico -> Sistema de Gestão (Straight Vertical Center: x=720) -->
+  <line x1="720" y1="255" x2="720" y2="483" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="615" y="340" width="210" height="64" fill="#ffffff" rx="4"/>
+  <text x="720" y="357" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">Abre OS, registra diagnóstico,</text>
+  <text x="720" y="372" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">adiciona itens e finaliza reparo</text>
+  <text x="720" y="388" text-anchor="middle" font-size="10.5" fill="#666666">[HTTPS / JSON (JWT)]</text>
+
+  <!-- 4. Administrador -> Sistema de Gestão (Diagonal Right-Center) -->
+  <line x1="1140" y1="255" x2="830" y2="485" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="880" y="345" width="210" height="52" fill="#ffffff" rx="4"/>
+  <text x="985" y="362" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">Gerencia catálogo, estoque de</text>
+  <text x="985" y="377" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">peças e consulta SLA</text>
+  <text x="985" y="392" text-anchor="middle" font-size="10.5" fill="#666666">[HTTPS / JSON (JWT)]</text>
+
+  <!-- 5. Sistema de Gestão -> Serviço de Notificação (Horizontal Gap x=360..550) -->
+  <line x1="550" y1="578" x2="367" y2="578" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="372" y="546" width="166" height="52" fill="#ffffff" rx="4"/>
+  <text x="455" y="563" text-anchor="middle" font-size="11" font-weight="bold" fill="#333333">Envia notificação de status</text>
+  <text x="455" y="578" text-anchor="middle" font-size="11" font-weight="bold" fill="#333333">e orçamento para</text>
+  <text x="455" y="593" text-anchor="middle" font-size="10" fill="#666666">[mensageria / e-mail]</text>
+
+  <!-- 6. Sistema de Gestão -> Provedor JWT (Horizontal Gap x=890..1080) -->
+  <line x1="890" y1="578" x2="1073" y2="578" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="902" y="546" width="166" height="52" fill="#ffffff" rx="4"/>
+  <text x="985" y="563" text-anchor="middle" font-size="11" font-weight="bold" fill="#333333">Autentica credenciais e</text>
+  <text x="985" y="578" text-anchor="middle" font-size="11" font-weight="bold" fill="#333333">valida roles RBAC em</text>
+  <text x="985" y="593" text-anchor="middle" font-size="10" fill="#666666">[Spring Security / JWT]</text>
+
+  <!-- Title Footer -->
+  <text x="60" y="750" font-size="18" font-weight="bold" fill="#111111">[System Context] Sistema de Gestão de Oficina Mecânica</text>
+  <text x="60" y="770" font-size="12.5" fill="#666666">Diagrama de Contexto (Nível 1 - C4 Model)</text>
+</svg>

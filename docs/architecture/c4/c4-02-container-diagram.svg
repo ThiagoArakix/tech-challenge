@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1480 960" width="100%" height="100%" font-family="Segoe UI, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="c4-arrow" markerWidth="12" markerHeight="10" refX="10" refY="5" orient="auto">
+      <polygon points="0 0, 12 5, 0 10" fill="#666666"/>
+    </marker>
+    <filter id="shadow" x="-3%" y="-3%" width="108%" height="108%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000000" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="1480" height="960" fill="#ffffff"/>
+
+  <!-- Top Left Person: Cliente da Oficina (x=60..340, y=85..235) -->
+  <g filter="url(#shadow)">
+    <circle cx="200" cy="55" r="32" fill="#7a0c06" stroke="#520602" stroke-width="2"/>
+    <rect x="60" y="83" width="280" height="150" rx="18" fill="#7a0c06" stroke="#520602" stroke-width="2"/>
+    <text x="200" y="120" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">Cliente da Oficina</text>
+    <text x="200" y="138" text-anchor="middle" font-size="11.5" fill="#fecaca">[Person]</text>
+    <text x="200" y="165" text-anchor="middle" font-size="12" fill="#f8fafc">Consulta andamento da OS</text>
+    <text x="200" y="183" text-anchor="middle" font-size="12" fill="#f8fafc">e aprova ou rejeita o</text>
+    <text x="200" y="201" text-anchor="middle" font-size="12" fill="#f8fafc">orçamento público.</text>
+  </g>
+
+  <!-- Top Center Person: Administrador / Almoxarife (x=590..870, y=85..235) -->
+  <g filter="url(#shadow)">
+    <circle cx="730" cy="55" r="32" fill="#7a0c06" stroke="#520602" stroke-width="2"/>
+    <rect x="590" y="83" width="280" height="150" rx="18" fill="#7a0c06" stroke="#520602" stroke-width="2"/>
+    <text x="730" y="120" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">Administrador / Almoxarife</text>
+    <text x="730" y="138" text-anchor="middle" font-size="11.5" fill="#fecaca">[Person]</text>
+    <text x="730" y="165" text-anchor="middle" font-size="12" fill="#f8fafc">Administra clientes, veículos,</text>
+    <text x="730" y="183" text-anchor="middle" font-size="12" fill="#f8fafc">catálogo de serviços, peças</text>
+    <text x="730" y="201" text-anchor="middle" font-size="12" fill="#f8fafc">e métricas de execução.</text>
+  </g>
+
+  <!-- Top Right Person: Atendente / Mecânico (x=1120..1400, y=85..235) -->
+  <g filter="url(#shadow)">
+    <circle cx="1260" cy="55" r="32" fill="#7a0c06" stroke="#520602" stroke-width="2"/>
+    <rect x="1120" y="83" width="280" height="150" rx="18" fill="#7a0c06" stroke="#520602" stroke-width="2"/>
+    <text x="1260" y="120" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">Atendente / Mecânico</text>
+    <text x="1260" y="138" text-anchor="middle" font-size="11.5" fill="#fecaca">[Person]</text>
+    <text x="1260" y="165" text-anchor="middle" font-size="12" fill="#f8fafc">Opera o ciclo de vida da OS,</text>
+    <text x="1260" y="183" text-anchor="middle" font-size="12" fill="#f8fafc">diagnóstico, orçamento e</text>
+    <text x="1260" y="201" text-anchor="middle" font-size="12" fill="#f8fafc">execução dos reparos.</text>
+  </g>
+
+  <!-- External System (Middle Left): Serviço de Notificação (x=60..340, y=420..595) -->
+  <g filter="url(#shadow)">
+    <rect x="60" y="420" width="280" height="175" rx="6" fill="#999999" stroke="#6b6b6b" stroke-width="2"/>
+    <text x="200" y="462" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">Serviço de Notificação</text>
+    <text x="200" y="481" text-anchor="middle" font-size="11.5" fill="#e2e8f0">[Software System]</text>
+    <text x="200" y="510" text-anchor="middle" font-size="12" fill="#ffffff">Sistema externo de envio de</text>
+    <text x="200" y="528" text-anchor="middle" font-size="12" fill="#ffffff">comunicações e código público</text>
+    <text x="200" y="546" text-anchor="middle" font-size="12" fill="#ffffff">de acompanhamento ao cliente.</text>
+  </g>
+
+  <!-- System Boundary: Sistema de Gestão da Oficina Mecânica [Software System] -->
+  <rect x="530" y="385" width="900" height="515" fill="none" stroke="#666666" stroke-width="2" stroke-dasharray="10,6" rx="4"/>
+  <text x="550" y="874" font-size="13.5" font-weight="bold" fill="#333333">Sistema de Gestão da Oficina Mecânica</text>
+  <text x="550" y="890" font-size="11" fill="#666666">[Software System]</text>
+
+  <!-- Container 1 (Center): API Application (Oficina API) (x=570..890, y=420..595) -->
+  <g filter="url(#shadow)">
+    <rect x="570" y="420" width="320" height="175" rx="6" fill="#d93829" stroke="#9e2217" stroke-width="2"/>
+    <text x="730" y="458" text-anchor="middle" font-size="16.5" font-weight="bold" fill="#ffffff">API Application (Oficina API)</text>
+    <text x="730" y="477" text-anchor="middle" font-size="11.5" fill="#fecaca">[Container: Java 21 &amp; Spring Boot 3.3.4]</text>
+    <text x="730" y="506" text-anchor="middle" font-size="12" fill="#ffffff">Provê todas as funcionalidades de negócio</text>
+    <text x="730" y="524" text-anchor="middle" font-size="12" fill="#ffffff">em Clean Architecture via API REST JSON,</text>
+    <text x="730" y="542" text-anchor="middle" font-size="12" fill="#ffffff">protegida por Spring Security 6 e JWT.</text>
+  </g>
+
+  <!-- Container 2 (Right): Swagger UI / OpenAPI Docs (x=1110..1390, y=420..595) -->
+  <g filter="url(#shadow)">
+    <rect x="1110" y="420" width="280" height="175" rx="6" fill="#d93829" stroke="#9e2217" stroke-width="2"/>
+    <text x="1250" y="458" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">Swagger UI / OpenAPI Docs</text>
+    <text x="1250" y="477" text-anchor="middle" font-size="11.5" fill="#fecaca">[Container: Springdoc OpenAPI 2.6]</text>
+    <text x="1250" y="506" text-anchor="middle" font-size="12" fill="#ffffff">Interface web interativa que</text>
+    <text x="1250" y="524" text-anchor="middle" font-size="12" fill="#ffffff">entrega a documentação viva e</text>
+    <text x="1250" y="542" text-anchor="middle" font-size="12" fill="#ffffff">permite testar os endpoints REST.</text>
+  </g>
+
+  <!-- Container 3 (Bottom Center): Database Cylinder (PostgreSQL 16) (x=570..890, y=685..845) -->
+  <g filter="url(#shadow)">
+    <path d="M 570 710 L 570 825 A 160 22 0 0 0 890 825 L 890 710 Z" fill="#c92a1d" stroke="#8f1910" stroke-width="2"/>
+    <ellipse cx="730" cy="710" rx="160" ry="22" fill="#db3b2c" stroke="#8f1910" stroke-width="2"/>
+    <text x="730" y="750" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">Database (PostgreSQL 16)</text>
+    <text x="730" y="768" text-anchor="middle" font-size="11.5" fill="#fecaca">[Container: PostgreSQL 16 Alpine Schema]</text>
+    <text x="730" y="793" text-anchor="middle" font-size="11.5" fill="#ffffff">Armazena clientes, veículos, serviços,</text>
+    <text x="730" y="809" text-anchor="middle" font-size="11.5" fill="#ffffff">estoque de peças, ordens de serviço</text>
+    <text x="730" y="825" text-anchor="middle" font-size="11.5" fill="#ffffff">e migrações versionadas via Flyway.</text>
+  </g>
+
+  <!-- Relationships (Zero Crossings, Generous Gaps) -->
+  <!-- 1. Serviço de Notificação -> Cliente (Vertical Left: x=190) -->
+  <line x1="190" y1="420" x2="190" y2="242" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="95" y="302" width="190" height="52" fill="#ffffff" rx="4"/>
+  <text x="190" y="319" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">Envia notificação ao</text>
+  <text x="190" y="334" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">Cliente da Oficina</text>
+  <text x="190" y="349" text-anchor="middle" font-size="10.5" fill="#666666">[E-mail / SMS]</text>
+
+  <!-- 2. Cliente -> API Application (Diagonal Left-Center) -->
+  <line x1="305" y1="233" x2="620" y2="415" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="355" y="302" width="195" height="52" fill="#ffffff" rx="4"/>
+  <text x="452" y="319" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">Consulta status e aprova</text>
+  <text x="452" y="334" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">orçamento em</text>
+  <text x="452" y="349" text-anchor="middle" font-size="10.5" fill="#666666">[JSON/HTTPS (Público)]</text>
+
+  <!-- 3. Administrador -> API Application (Vertical Center: x=730) -->
+  <line x1="730" y1="233" x2="730" y2="413" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="630" y="302" width="200" height="44" fill="#ffffff" rx="4"/>
+  <text x="730" y="320" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">Realiza chamadas de API em</text>
+  <text x="730" y="336" text-anchor="middle" font-size="10.5" fill="#666666">[JSON/HTTPS (Bearer JWT)]</text>
+
+  <!-- 4. Atendente / Mecânico -> API Application (Diagonal Right-Center) -->
+  <line x1="1150" y1="233" x2="840" y2="415" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="895" y="302" width="200" height="44" fill="#ffffff" rx="4"/>
+  <text x="995" y="320" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">Realiza chamadas de API em</text>
+  <text x="995" y="336" text-anchor="middle" font-size="10.5" fill="#666666">[JSON/HTTPS (Bearer JWT)]</text>
+
+  <!-- 5. Atendente / Mecânico -> Swagger UI (Vertical Right: x=1260) -->
+  <line x1="1260" y1="233" x2="1260" y2="413" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="1155" y="302" width="210" height="52" fill="#ffffff" rx="4"/>
+  <text x="1260" y="319" text-anchor="middle" font-size="11" font-weight="bold" fill="#333333">Acessa documentação interativa</text>
+  <text x="1260" y="334" text-anchor="middle" font-size="11" font-weight="bold" fill="#333333">/swagger-ui.html em</text>
+  <text x="1260" y="349" text-anchor="middle" font-size="10" fill="#666666">[HTTPS]</text>
+
+  <!-- 6. API Application -> Serviço de Notificação (Horizontal Gap x=340..570 = 230px) -->
+  <line x1="570" y1="508" x2="347" y2="508" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="362" y="476" width="185" height="52" fill="#ffffff" rx="4"/>
+  <text x="454" y="493" text-anchor="middle" font-size="11" font-weight="bold" fill="#333333">Dispara aviso de orçamento</text>
+  <text x="454" y="508" text-anchor="middle" font-size="11" font-weight="bold" fill="#333333">disponível via</text>
+  <text x="454" y="523" text-anchor="middle" font-size="10" fill="#666666">[HTTPS / Evento]</text>
+
+  <!-- 7. Swagger UI -> API Application (Horizontal Gap x=890..1110 = 220px) -->
+  <line x1="1110" y1="508" x2="897" y2="508" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="910" y="476" width="180" height="52" fill="#ffffff" rx="4"/>
+  <text x="1000" y="493" text-anchor="middle" font-size="11" font-weight="bold" fill="#333333">Invoca endpoints REST da</text>
+  <text x="1000" y="508" text-anchor="middle" font-size="11" font-weight="bold" fill="#333333">API Application em</text>
+  <text x="1000" y="523" text-anchor="middle" font-size="10" fill="#666666">[JSON/HTTPS]</text>
+
+  <!-- 8. API Application -> Database (Vertical Gap y=595..688 = 93px) -->
+  <line x1="730" y1="595" x2="730" y2="682" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="625" y="608" width="210" height="52" fill="#ffffff" rx="4"/>
+  <text x="730" y="625" text-anchor="middle" font-size="11" font-weight="bold" fill="#333333">Reads from and writes to</text>
+  <text x="730" y="640" text-anchor="middle" font-size="11" font-weight="bold" fill="#333333">(Transações ACID + Flyway)</text>
+  <text x="730" y="655" text-anchor="middle" font-size="10" fill="#666666">[JDBC / SQL / TCP (5432)]</text>
+
+  <!-- Title Footer -->
+  <text x="60" y="918" font-size="18" font-weight="bold" fill="#111111">[Container] Sistema de Gestão de Oficina Mecânica</text>
+  <text x="60" y="938" font-size="12.5" fill="#666666">Diagrama de Contêineres (Nível 2 - C4 Model)</text>
+</svg>

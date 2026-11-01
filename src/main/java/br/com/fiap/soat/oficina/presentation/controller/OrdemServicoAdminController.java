@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -90,11 +91,20 @@ public class OrdemServicoAdminController {
 
     @PostMapping("/{id}/itens/servicos")
     @Operation(summary = "Passo 4 - Adicionar Serviços: Inclui serviços e mão de obra no orçamento",
-            description = "Adiciona um serviço (mão de obra) com descrição e valor unitário à Ordem de Serviço.")
+            description = "Adiciona um serviço (via servicoId do catálogo ou descrição/valor avulsos) à Ordem de Serviço.")
     public ResponseEntity<OrdemServicoOutput> adicionarServico(
             @PathVariable UUID id,
             @RequestBody @Valid AdicionarItemServicoRequest request) {
         return ResponseEntity.ok(adicionarItensOSUseCase.adicionarServico(id, request.toInput()));
+    }
+
+    @DeleteMapping("/{id}/itens/servicos/{itemId}")
+    @Operation(summary = "Passo 4.1 - Remover Serviço: Remove um item de serviço durante o diagnóstico",
+            description = "Remove um serviço previamente incluído na OS enquanto ela estiver em fase de diagnóstico.")
+    public ResponseEntity<OrdemServicoOutput> removerServico(
+            @PathVariable UUID id,
+            @PathVariable UUID itemId) {
+        return ResponseEntity.ok(adicionarItensOSUseCase.removerServico(id, itemId));
     }
 
     @PostMapping("/{id}/itens/pecas")
@@ -104,6 +114,15 @@ public class OrdemServicoAdminController {
             @PathVariable UUID id,
             @RequestBody @Valid AdicionarItemPecaRequest request) {
         return ResponseEntity.ok(adicionarItensOSUseCase.adicionarPeca(id, request.toInput()));
+    }
+
+    @DeleteMapping("/{id}/itens/pecas/{itemId}")
+    @Operation(summary = "Passo 5.1 - Remover Peça: Remove um item de peça durante o diagnóstico",
+            description = "Remove uma peça previamente incluída na OS enquanto ela estiver em fase de diagnóstico.")
+    public ResponseEntity<OrdemServicoOutput> removerPeca(
+            @PathVariable UUID id,
+            @PathVariable UUID itemId) {
+        return ResponseEntity.ok(adicionarItensOSUseCase.removerPeca(id, itemId));
     }
 
     @PostMapping("/{id}/submeter-aprovacao")
@@ -119,6 +138,13 @@ public class OrdemServicoAdminController {
             description = "Aprova orçamento da OS, realiza baixa definitiva de estoque de todas as peças e avança para EM_EXECUCAO.")
     public ResponseEntity<OrdemServicoOutput> aprovarOrcamento(@PathVariable UUID id) {
         return ResponseEntity.ok(aprovarOrcamentoUseCase.executar(id));
+    }
+
+    @PostMapping("/{id}/rejeitar")
+    @Operation(summary = "Passo 7.1 - Rejeitar Orçamento: Registra a rejeição do orçamento (Status: CANCELADA)",
+            description = "Registra a rejeição do orçamento que estava AGUARDANDO_APROVACAO, cancelando a OS sem debitar estoque.")
+    public ResponseEntity<OrdemServicoOutput> rejeitarOrcamento(@PathVariable UUID id) {
+        return ResponseEntity.ok(atualizarStatusOSUseCase.rejeitarOrcamento(id));
     }
 
     @PostMapping("/{id}/finalizar")
@@ -159,7 +185,7 @@ public class OrdemServicoAdminController {
 
     @GetMapping("/metricas/tempo-medio")
     @Operation(summary = "Métricas - Tempo Médio: Calcula o tempo médio de execução das OS finalizadas",
-            description = "Calcula tempo médio entre a abertura e finalização de todas as OS com status FINALIZADA ou ENTREGUE (exclusivo ADMIN).")
+            description = "Calcula tempo médio entre a aprovação e finalização de todas as OS com status FINALIZADA ou ENTREGUE (exclusivo ADMIN).")
     public ResponseEntity<MetricasTempoMedioOutput> calcularTempoMedio() {
         return ResponseEntity.ok(calcularTempoMedioExecucaoUseCase.executar());
     }

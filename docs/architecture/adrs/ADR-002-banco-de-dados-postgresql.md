@@ -2,7 +2,7 @@
 
 * **Data:** 10 de Outubro de 2026
 * **Status:** Aprovado
-* **Autores:** Equipe de Arquitetura de Software SOAT (Fase 1)
+* **Autor:** Thiago Costa Araki
 
 ---
 

@@ -5,10 +5,12 @@ import br.com.fiap.soat.oficina.domain.entity.ItemPecaOrdem;
 import br.com.fiap.soat.oficina.domain.entity.ItemServicoOrdem;
 import br.com.fiap.soat.oficina.domain.entity.OrdemServico;
 import br.com.fiap.soat.oficina.domain.entity.Peca;
+import br.com.fiap.soat.oficina.domain.entity.Servico;
 import br.com.fiap.soat.oficina.domain.entity.Veiculo;
 import br.com.fiap.soat.oficina.domain.repository.ClienteRepositoryPort;
 import br.com.fiap.soat.oficina.domain.repository.OrdemServicoRepositoryPort;
 import br.com.fiap.soat.oficina.domain.repository.PecaRepositoryPort;
+import br.com.fiap.soat.oficina.domain.repository.ServicoRepositoryPort;
 import br.com.fiap.soat.oficina.domain.repository.VeiculoRepositoryPort;
 import br.com.fiap.soat.oficina.domain.valueobject.CpfCnpj;
 import br.com.fiap.soat.oficina.domain.valueobject.Dinheiro;
@@ -40,6 +42,9 @@ class RepositoriosAdapterIntegrationTest {
 
     @Autowired
     private PecaRepositoryPort pecaRepository;
+
+    @Autowired
+    private ServicoRepositoryPort servicoRepository;
 
     @Autowired
     private OrdemServicoRepositoryPort ordemServicoRepository;
@@ -96,6 +101,23 @@ class RepositoriosAdapterIntegrationTest {
     }
 
     @Test
+    @DisplayName("Deve persistir e recuperar Serviço do catálogo")
+    void devePersistirServico() {
+        Servico servico = Servico.criarNovo("SRV-BALANCEAMENTO", "Balanceamento de Rodas", "Balanceamento computadorizado", Dinheiro.de(90.00));
+        Servico salvo = servicoRepository.salvar(servico);
+
+        assertThat(salvo).isNotNull();
+        assertThat(salvo.getCodigo()).isEqualTo("SRV-BALANCEAMENTO");
+        assertThat(servicoRepository.existePorCodigo("SRV-BALANCEAMENTO")).isTrue();
+        assertThat(servicoRepository.buscarPorCodigo("SRV-BALANCEAMENTO")).isPresent();
+        assertThat(servicoRepository.buscarPorId(salvo.getId())).isPresent();
+        assertThat(servicoRepository.listarTodos()).isNotEmpty();
+
+        servicoRepository.deletar(salvo.getId());
+        assertThat(servicoRepository.buscarPorId(salvo.getId())).isEmpty();
+    }
+
+    @Test
     @DisplayName("Deve persistir Ordem de Serviço completa com serviços e peças associadas")
     void devePersistirOrdemServicoCompleta() {
         Cliente cliente = clienteRepository.salvar(
@@ -130,6 +152,7 @@ class RepositoriosAdapterIntegrationTest {
         assertThat(clienteRepository.buscarPorEmail("ana@email.com")).isPresent();
 
         assertThat(veiculoRepository.buscarPorClienteId(cliente.getId())).isNotEmpty();
+        assertThat(veiculoRepository.listarTodos()).isNotEmpty();
         assertThat(veiculoRepository.existePorPlaca(Placa.de("XYZ9Z99"))).isTrue();
 
         assertThat(pecaRepository.listarTodas()).isNotEmpty();

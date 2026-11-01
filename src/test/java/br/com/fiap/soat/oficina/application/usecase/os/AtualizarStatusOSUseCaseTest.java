@@ -90,13 +90,23 @@ class AtualizarStatusOSUseCaseTest {
     }
 
     @Test
-    @DisplayName("Deve cancelar a OS com sucesso")
+    @DisplayName("Deve cancelar a OS e rejeitar orçamento com sucesso")
     void deveCancelarOS() {
         when(ordemServicoRepository.buscarPorId(os.getId())).thenReturn(Optional.of(os));
         when(ordemServicoRepository.salvar(any())).thenAnswer(inv -> inv.getArgument(0));
 
         OrdemServicoOutput output = atualizarStatusUseCase.cancelar(os.getId());
         assertThat(output.status()).isEqualTo(StatusOS.CANCELADA);
+
+        OrdemServico osAguardando = OrdemServico.abrirNova(UUID.randomUUID(), UUID.randomUUID(), "Revisão");
+        osAguardando.iniciarDiagnostico();
+        osAguardando.registrarDiagnostico("Diagnóstico ok");
+        osAguardando.adicionarItemServico(ItemServicoOrdem.criarNovo("Revisão", 1, Dinheiro.de(100.00)));
+        osAguardando.enviarParaAprovacao();
+
+        when(ordemServicoRepository.buscarPorId(osAguardando.getId())).thenReturn(Optional.of(osAguardando));
+        OrdemServicoOutput rejeitada = atualizarStatusUseCase.rejeitarOrcamento(osAguardando.getId());
+        assertThat(rejeitada.status()).isEqualTo(StatusOS.CANCELADA);
     }
 
     @Test

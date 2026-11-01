@@ -26,6 +26,10 @@
         <jjwt.version>0.12.6</jjwt.version>
         <springdoc.version>2.6.0</springdoc.version>
         <jacoco.version>0.8.12</jacoco.version>
+        <sonar.projectKey>br.com.fiap.soat:oficina-mecanica</sonar.projectKey>
+        <sonar.projectName>oficina-mecanica</sonar.projectName>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.exclusions>**/OficinaApplication.*,**/dto/**,**/presentation/request/**,**/presentation/response/**,**/config/**</sonar.exclusions>
     </properties>
 
     <dependencies>

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 420" width="100%" height="100%" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arr-st" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#1e293b"/>
+    </marker>
+    <marker id="arr-can" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#dc2626"/>
+    </marker>
+  </defs>
+  <rect width="1240" height="420" fill="#f8fafc" rx="10"/>
+  <text x="620" y="35" text-anchor="middle" font-size="19" font-weight="bold" fill="#0f172a">Máquina de Estados Finita da Ordem de Serviço (StatusOS)</text>
+  <text x="620" y="56" text-anchor="middle" font-size="12" fill="#475569">Transições estritas e unidirecionais protegidas pelo Aggregate Root OrdemServico</text>
+
+  <!-- Start node -->
+  <circle cx="45" cy="165" r="14" fill="#0f172a"/>
+  <line x1="59" y1="165" x2="105" y2="165" stroke="#1e293b" stroke-width="2" marker-end="url(#arr-st)"/>
+  <text x="82" y="155" text-anchor="middle" font-size="10" font-weight="bold" fill="#334155">abrir()</text>
+
+  <!-- RECEBIDA -->
+  <rect x="110" y="130" width="140" height="70" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+  <text x="180" y="162" text-anchor="middle" font-size="13" font-weight="bold" fill="#0c4a6e">RECEBIDA</text>
+  <text x="180" y="180" text-anchor="middle" font-size="10" fill="#0369a1">dataAbertura gravada</text>
+
+  <line x1="250" y1="165" x2="315" y2="165" stroke="#1e293b" stroke-width="2" marker-end="url(#arr-st)"/>
+  <text x="282" y="145" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#334155">iniciar</text>
+  <text x="282" y="157" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#334155">Diagnostico()</text>
+
+  <!-- EM_DIAGNOSTICO -->
+  <rect x="320" y="130" width="160" height="70" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="400" y="160" text-anchor="middle" font-size="13" font-weight="bold" fill="#78350f">EM_DIAGNOSTICO</text>
+  <text x="400" y="178" text-anchor="middle" font-size="10" fill="#92400e">Permite editar itens</text>
+
+  <line x1="480" y1="165" x2="555" y2="165" stroke="#1e293b" stroke-width="2" marker-end="url(#arr-st)"/>
+  <text x="517" y="143" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#334155">aguardar</text>
+  <text x="517" y="155" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#334155">Aprovacao()</text>
+
+  <!-- AGUARDANDO_APROVACAO -->
+  <rect x="560" y="130" width="190" height="70" rx="10" fill="#fae8ff" stroke="#9333ea" stroke-width="2"/>
+  <text x="655" y="160" text-anchor="middle" font-size="12" font-weight="bold" fill="#581c87">AGUARDANDO_APROVACAO</text>
+  <text x="655" y="178" text-anchor="middle" font-size="10" fill="#6b21a8">Itens congelados p/ cliente</text>
+
+  <line x1="750" y1="165" x2="815" y2="165" stroke="#1e293b" stroke-width="2" marker-end="url(#arr-st)"/>
+  <text x="782" y="143" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">aprovar()</text>
+  <text x="782" y="155" text-anchor="middle" font-size="9" fill="#15803d">[Baixa Estoque]</text>
+
+  <!-- EM_EXECUCAO -->
+  <rect x="820" y="130" width="145" height="70" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="892" y="160" text-anchor="middle" font-size="13" font-weight="bold" fill="#14532d">EM_EXECUCAO</text>
+  <text x="892" y="178" text-anchor="middle" font-size="10" fill="#166534">dataAprovacao</text>
+
+  <line x1="965" y1="165" x2="1015" y2="165" stroke="#1e293b" stroke-width="2" marker-end="url(#arr-st)"/>
+  <text x="990" y="153" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#334155">finalizar()</text>
+
+  <!-- FINALIZADA -->
+  <rect x="1020" y="130" width="135" height="70" rx="10" fill="#dcfce7" stroke="#15803d" stroke-width="2"/>
+  <text x="1087" y="160" text-anchor="middle" font-size="13" font-weight="bold" fill="#14532d">FINALIZADA</text>
+  <text x="1087" y="178" text-anchor="middle" font-size="10" fill="#166534">dataFinalizacao</text>
+
+  <!-- ENTREGUE -->
+  <path d="M 1087 200 L 1087 295" stroke="#1e293b" stroke-width="2" fill="none" marker-end="url(#arr-st)"/>
+  <text x="1122" y="252" text-anchor="middle" font-size="10" font-weight="bold" fill="#334155">entregar()</text>
+  <rect x="1020" y="300" width="135" height="70" rx="10" fill="#0f172a" stroke="#0f172a" stroke-width="2"/>
+  <text x="1087" y="332" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">ENTREGUE</text>
+  <text x="1087" y="350" text-anchor="middle" font-size="10" fill="#cbd5e1">dataEntrega (Fim)</text>
+
+  <!-- CANCELADA -->
+  <rect x="340" y="300" width="380" height="70" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+  <text x="530" y="330" text-anchor="middle" font-size="13" font-weight="bold" fill="#991b1b">CANCELADA (Estado Terminal)</text>
+  <text x="530" y="350" text-anchor="middle" font-size="10.5" fill="#b91c1c">rejeitar() pelo Cliente ou cancelar() administrativo (Sem baixa de estoque)</text>
+
+  <path d="M 180 200 L 180 335 L 335 335" stroke="#dc2626" stroke-width="1.8" stroke-dasharray="5,4" fill="none" marker-end="url(#arr-can)"/>
+  <text x="245" y="325" text-anchor="middle" font-size="10" font-weight="bold" fill="#dc2626">cancelar()</text>
+
+  <path d="M 400 200 L 400 295" stroke="#dc2626" stroke-width="1.8" stroke-dasharray="5,4" fill="none" marker-end="url(#arr-can)"/>
+  <text x="432" y="255" text-anchor="middle" font-size="10" font-weight="bold" fill="#dc2626">cancelar()</text>
+
+  <path d="M 655 200 L 655 295" stroke="#dc2626" stroke-width="1.8" stroke-dasharray="5,4" fill="none" marker-end="url(#arr-can)"/>
+  <text x="715" y="255" text-anchor="middle" font-size="10" font-weight="bold" fill="#dc2626">rejeitar() / cancelar()</text>
+</svg>
