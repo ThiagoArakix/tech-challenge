@@ -7,10 +7,12 @@ import br.com.fiap.soat.oficina.domain.entity.ItemPecaOrdem;
 import br.com.fiap.soat.oficina.domain.entity.ItemServicoOrdem;
 import br.com.fiap.soat.oficina.domain.entity.OrdemServico;
 import br.com.fiap.soat.oficina.domain.entity.Peca;
+import br.com.fiap.soat.oficina.domain.entity.Servico;
 import br.com.fiap.soat.oficina.domain.exception.RecursoNaoEncontradoException;
 import br.com.fiap.soat.oficina.domain.exception.SaldoEstoqueInsuficienteException;
 import br.com.fiap.soat.oficina.domain.repository.OrdemServicoRepositoryPort;
 import br.com.fiap.soat.oficina.domain.repository.PecaRepositoryPort;
+import br.com.fiap.soat.oficina.domain.repository.ServicoRepositoryPort;
 import br.com.fiap.soat.oficina.domain.valueobject.Dinheiro;
 
 import java.util.List;
@@ -21,11 +23,19 @@ public class AdicionarItensOSUseCase {
 
     private final OrdemServicoRepositoryPort ordemServicoRepository;
     private final PecaRepositoryPort pecaRepository;
+    private final ServicoRepositoryPort servicoRepository;
 
     public AdicionarItensOSUseCase(OrdemServicoRepositoryPort ordemServicoRepository,
                                   PecaRepositoryPort pecaRepository) {
+        this(ordemServicoRepository, pecaRepository, null);
+    }
+
+    public AdicionarItensOSUseCase(OrdemServicoRepositoryPort ordemServicoRepository,
+                                  PecaRepositoryPort pecaRepository,
+                                  ServicoRepositoryPort servicoRepository) {
         this.ordemServicoRepository = Objects.requireNonNull(ordemServicoRepository);
         this.pecaRepository = Objects.requireNonNull(pecaRepository);
+        this.servicoRepository = servicoRepository;
     }
 
     public OrdemServicoOutput executar(UUID osId,
@@ -36,10 +46,26 @@ public class AdicionarItensOSUseCase {
 
         if (servicos != null) {
             for (AdicionarItemServicoInput servicoInput : servicos) {
+                String descricaoFinal = servicoInput.descricao();
+                Dinheiro valorUnitarioFinal = (servicoInput.valorUnitario() != null)
+                        ? Dinheiro.de(servicoInput.valorUnitario())
+                        : null;
+
+                if (servicoInput.servicoId() != null && servicoRepository != null) {
+                    Servico servicoCatalogo = servicoRepository.buscarPorId(servicoInput.servicoId())
+                            .orElseThrow(() -> RecursoNaoEncontradoException.de("Serviço", servicoInput.servicoId()));
+                    if (descricaoFinal == null || descricaoFinal.isBlank()) {
+                        descricaoFinal = servicoCatalogo.getNome();
+                    }
+                    if (valorUnitarioFinal == null) {
+                        valorUnitarioFinal = servicoCatalogo.getValorUnitario();
+                    }
+                }
+
                 ItemServicoOrdem itemServico = ItemServicoOrdem.criarNovo(
-                        servicoInput.descricao(),
+                        descricaoFinal,
                         servicoInput.quantidade(),
-                        Dinheiro.de(servicoInput.valorUnitario())
+                        valorUnitarioFinal
                 );
                 os.adicionarItemServico(itemServico);
             }
@@ -75,5 +101,20 @@ public class AdicionarItensOSUseCase {
     public OrdemServicoOutput adicionarPeca(UUID osId, AdicionarItemPecaInput input) {
         return executar(osId, List.of(), List.of(input));
     }
-}
 
+    public OrdemServicoOutput removerServico(UUID osId, UUID itemId) {
+        OrdemServico os = ordemServicoRepository.buscarPorId(osId)
+                .orElseThrow(() -> RecursoNaoEncontradoException.de("Ordem de Serviço", osId));
+        os.removerItemServico(itemId);
+        OrdemServico salva = ordemServicoRepository.salvar(os);
+        return OrdemServicoOutput.deDominio(salva);
+    }
+
+    public OrdemServicoOutput removerPeca(UUID osId, UUID itemId) {
+        OrdemServico os = ordemServicoRepository.buscarPorId(osId)
+                .orElseThrow(() -> RecursoNaoEncontradoException.de("Ordem de Serviço", osId));
+        os.removerItemPeca(itemId);
+        OrdemServico salva = ordemServicoRepository.salvar(os);
+        return OrdemServicoOutput.deDominio(salva);
+    }
+}

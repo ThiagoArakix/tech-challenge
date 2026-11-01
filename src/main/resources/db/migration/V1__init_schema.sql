@@ -1,13 +1,7 @@
--- ==============================================================================
 -- V1__init_schema.sql
--- Inicialização do esquema do banco de dados para o sistema de Oficina Mecânica
--- Compatível com PostgreSQL 16+ e H2 Database (Modo PostgreSQL)
--- ==============================================================================
+-- Esquema inicial do banco de dados (PostgreSQL 16+)
 
--- ------------------------------------------------------------------------------
 -- Tabela: clientes
--- Armazena os clientes da oficina mecânica (pessoas físicas ou jurídicas)
--- ------------------------------------------------------------------------------
 CREATE TABLE clientes (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     nome VARCHAR(150) NOT NULL,
@@ -20,10 +14,7 @@ CREATE TABLE clientes (
     CONSTRAINT uk_clientes_email UNIQUE (email)
 );
 
--- ------------------------------------------------------------------------------
 -- Tabela: veiculos
--- Armazena os veículos associados aos clientes
--- ------------------------------------------------------------------------------
 CREATE TABLE veiculos (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     cliente_id UUID NOT NULL,
@@ -43,10 +34,7 @@ CREATE TABLE veiculos (
     CONSTRAINT chk_veiculos_ano_modelo CHECK (ano_modelo >= ano_fabricacao)
 );
 
--- ------------------------------------------------------------------------------
 -- Tabela: pecas
--- Armazena o catálogo e inventário de peças automotivas com controle de saldo
--- ------------------------------------------------------------------------------
 CREATE TABLE pecas (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     codigo VARCHAR(50) NOT NULL,
@@ -63,10 +51,20 @@ CREATE TABLE pecas (
     CONSTRAINT chk_pecas_estoque_minimo CHECK (estoque_minimo >= 0)
 );
 
--- ------------------------------------------------------------------------------
+-- Tabela: servicos
+CREATE TABLE servicos (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    codigo VARCHAR(50) NOT NULL,
+    nome VARCHAR(150) NOT NULL,
+    descricao VARCHAR(255),
+    valor_unitario NUMERIC(12, 2) NOT NULL,
+    criado_em TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em TIMESTAMP WITH TIME ZONE,
+    CONSTRAINT uk_servicos_codigo UNIQUE (codigo),
+    CONSTRAINT chk_servicos_valor_unitario CHECK (valor_unitario >= 0)
+);
+
 -- Tabela: ordens_servico
--- Armazena os atendimentos e ordens de serviço executadas na oficina
--- ------------------------------------------------------------------------------
 CREATE TABLE ordens_servico (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     cliente_id UUID NOT NULL,
@@ -87,10 +85,7 @@ CREATE TABLE ordens_servico (
     CONSTRAINT chk_os_status CHECK (status IN ('RECEBIDA', 'EM_DIAGNOSTICO', 'AGUARDANDO_APROVACAO', 'APROVADA', 'EM_EXECUCAO', 'FINALIZADA', 'ENTREGUE', 'CANCELADA'))
 );
 
--- ------------------------------------------------------------------------------
 -- Tabela: itens_servico_os
--- Armazena os serviços (mão de obra) vinculados a uma ordem de serviço
--- ------------------------------------------------------------------------------
 CREATE TABLE itens_servico_os (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     ordem_servico_id UUID NOT NULL,
@@ -105,10 +100,7 @@ CREATE TABLE itens_servico_os (
     CONSTRAINT chk_itens_servico_valor_total CHECK (valor_total >= 0)
 );
 
--- ------------------------------------------------------------------------------
 -- Tabela: itens_peca_os
--- Armazena as peças aplicadas a uma ordem de serviço
--- ------------------------------------------------------------------------------
 CREATE TABLE itens_peca_os (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     ordem_servico_id UUID NOT NULL,
@@ -124,26 +116,15 @@ CREATE TABLE itens_peca_os (
     CONSTRAINT chk_itens_peca_valor_total CHECK (valor_total >= 0)
 );
 
--- ------------------------------------------------------------------------------
--- Índices para otimização de consultas frequentes
--- ------------------------------------------------------------------------------
-
--- Busca por documento do cliente
+-- Índices
 CREATE INDEX idx_clientes_documento ON clientes(documento);
-
--- Busca por placa do veículo
 CREATE INDEX idx_veiculos_placa ON veiculos(placa);
 CREATE INDEX idx_veiculos_cliente_id ON veiculos(cliente_id);
-
--- Busca de catálogo por código da peça
 CREATE INDEX idx_pecas_codigo ON pecas(codigo);
-
--- Busca de ordens de serviço por status, cliente e veículo
+CREATE INDEX idx_servicos_codigo ON servicos(codigo);
 CREATE INDEX idx_ordens_servico_status ON ordens_servico(status);
 CREATE INDEX idx_ordens_servico_cliente_id ON ordens_servico(cliente_id);
 CREATE INDEX idx_ordens_servico_veiculo_id ON ordens_servico(veiculo_id);
-
--- Busca de itens de serviço e peças pela ordem de serviço
 CREATE INDEX idx_itens_servico_os_ordem_servico_id ON itens_servico_os(ordem_servico_id);
 CREATE INDEX idx_itens_peca_os_ordem_servico_id ON itens_peca_os(ordem_servico_id);
 CREATE INDEX idx_itens_peca_os_peca_id ON itens_peca_os(peca_id);

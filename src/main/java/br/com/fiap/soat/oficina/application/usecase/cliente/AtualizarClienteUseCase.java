@@ -25,5 +25,12 @@ public class AtualizarClienteUseCase {
 
         return ClienteOutput.deDominio(salvo);
     }
+
+    public void deletar(UUID id) {
+        if (clienteRepository.buscarPorId(id).isEmpty()) {
+            throw RecursoNaoEncontradoException.de("Cliente", id);
+        }
+        clienteRepository.deletar(id);
+    }
 }
 

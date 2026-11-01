@@ -2,15 +2,15 @@
 
 * **Data:** 10 de Outubro de 2026
 * **Status:** Aprovado
-* **Autores:** Equipe de Arquitetura de Software SOAT (Fase 1)
+* **Autor:** Thiago Costa Araki
 
 ---
 
 ## 1. Contexto
 
-Para o desenvolvimento do sistema de gestão da **Oficina Mecânica** (Tech Challenge SOAT - Fase 1), era necessário definir o estilo arquitetural e o padrão de organização interna do código-fonte. O sistema precisa suportar regras de negócio automotivas complexas (máquina de estados finita da Ordem de Serviço, cálculo de orçamentos, baixa física de inventário e métricas operacionais), mantendo alta testabilidade, baixo acoplamento e conformidade estrita com os princípios de **Domain-Driven Design (DDD)**.
+Para o desenvolvimento do sistema de gestão da **Oficina Mecânica**, era necessário definir o estilo arquitetural e o padrão de organização interna do código-fonte. O sistema precisa suportar regras de negócio automotivas (máquina de estados da Ordem de Serviço, cálculo de orçamentos, baixa física de inventário e métricas operacionais), mantendo alta testabilidade, baixo acoplamento e aderência aos princípios de **Domain-Driven Design (DDD)**.
 
-O edital da Fase 1 estabelece critérios eliminatórios que exigem no mínimo 80% de cobertura de código em testes automatizados e isolamento do domínio de negócio em relação a tecnologias e frameworks.
+O projeto requer no mínimo 80% de cobertura de código em testes automatizados e isolamento do domínio de negócio em relação a tecnologias e frameworks.
 
 ---
 

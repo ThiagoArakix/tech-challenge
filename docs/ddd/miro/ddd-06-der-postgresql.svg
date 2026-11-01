@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1220 650" width="100%" height="100%" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="fk-arr" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="1220" height="650" fill="#f8fafc" rx="10"/>
+  <text x="610" y="34" text-anchor="middle" font-size="19" font-weight="bold" fill="#0f172a">Diagrama Entidade-Relacionamento (DER — PostgreSQL 16 / Flyway V1__init_schema.sql)</text>
+  <text x="610" y="54" text-anchor="middle" font-size="12" fill="#475569">Integridade Referencial (ON DELETE RESTRICT / CASCADE), Constraints CHECK de Estoque e Chaves UUID</text>
+
+  <!-- Table: CLIENTES -->
+  <rect x="45" y="90" width="280" height="175" rx="6" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+  <rect x="45" y="90" width="280" height="34" rx="6" fill="#0284c7"/>
+  <text x="185" y="112" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">CLIENTES</text>
+  <g font-size="11" font-family="Consolas, monospace" fill="#1e293b">
+    <text x="58" y="144" font-weight="bold" fill="#0369a1">PK id: UUID</text>
+    <text x="58" y="164">   nome: VARCHAR(150) NOT NULL</text>
+    <text x="58" y="184" font-weight="bold" fill="#b45309">UK cpf_cnpj: VARCHAR(14) NOT NULL</text>
+    <text x="58" y="204">   telefone: VARCHAR(20)</text>
+    <text x="58" y="224">   email: VARCHAR(150)</text>
+    <text x="58" y="244" fill="#64748b">   criado_em: TIMESTAMP</text>
+  </g>
+
+  <!-- Table: VEICULOS -->
+  <rect x="45" y="355" width="280" height="215" rx="6" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+  <rect x="45" y="355" width="280" height="34" rx="6" fill="#0284c7"/>
+  <text x="185" y="377" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">VEICULOS</text>
+  <g font-size="11" font-family="Consolas, monospace" fill="#1e293b">
+    <text x="58" y="408" font-weight="bold" fill="#0369a1">PK id: UUID</text>
+    <text x="58" y="428" font-weight="bold" fill="#7e22ce">FK cliente_id: UUID (RESTRICT)</text>
+    <text x="58" y="448" font-weight="bold" fill="#b45309">UK placa: VARCHAR(7) NOT NULL</text>
+    <text x="58" y="468">   marca: VARCHAR(60) NOT NULL</text>
+    <text x="58" y="488">   modelo: VARCHAR(80) NOT NULL</text>
+    <text x="58" y="508">   ano_fabricacao, ano_modelo: INT</text>
+    <text x="58" y="528">   cor: VARCHAR(40)</text>
+    <text x="58" y="548">   quilometragem_atual: INT</text>
+  </g>
+
+  <!-- Table: ORDENS_SERVICO -->
+  <rect x="445" y="160" width="320" height="270" rx="6" fill="#ffffff" stroke="#d97706" stroke-width="2.5"/>
+  <rect x="445" y="160" width="320" height="36" rx="6" fill="#d97706"/>
+  <text x="605" y="183" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#ffffff">ORDENS_SERVICO (Core)</text>
+  <g font-size="11" font-family="Consolas, monospace" fill="#1e293b">
+    <text x="458" y="216" font-weight="bold" fill="#0369a1">PK id: UUID</text>
+    <text x="458" y="236" font-weight="bold" fill="#7e22ce">FK cliente_id: UUID (RESTRICT)</text>
+    <text x="458" y="256" font-weight="bold" fill="#7e22ce">FK veiculo_id: UUID (RESTRICT)</text>
+    <text x="458" y="276" font-weight="bold" fill="#b45309">   status: VARCHAR(30) NOT NULL</text>
+    <text x="458" y="296">   descricao_problema: TEXT</text>
+    <text x="458" y="316">   diagnostico: TEXT</text>
+    <text x="458" y="336">   data_abertura: TIMESTAMP NOT NULL</text>
+    <text x="458" y="356">   data_aprovacao: TIMESTAMP</text>
+    <text x="458" y="376">   data_finalizacao: TIMESTAMP</text>
+    <text x="458" y="396">   data_entrega: TIMESTAMP</text>
+    <text x="458" y="416" fill="#64748b">   IDX: status, cliente_id, veiculo_id</text>
+  </g>
+
+  <!-- Table: OS_ITENS_SERVICO -->
+  <rect x="880" y="75" width="300" height="155" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+  <rect x="880" y="75" width="300" height="32" rx="6" fill="#16a34a"/>
+  <text x="1030" y="96" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">OS_ITENS_SERVICO</text>
+  <g font-size="11" font-family="Consolas, monospace" fill="#1e293b">
+    <text x="892" y="126" font-weight="bold" fill="#0369a1">PK id: UUID</text>
+    <text x="892" y="146" font-weight="bold" fill="#7e22ce">FK ordem_servico_id: UUID (CASCADE)</text>
+    <text x="892" y="166">   descricao: VARCHAR(255) NOT NULL</text>
+    <text x="892" y="186">   quantidade: INT CHECK (&gt; 0)</text>
+    <text x="892" y="206">   valor_unitario: NUMERIC(12,2)</text>
+  </g>
+
+  <!-- Table: OS_ITENS_PECA -->
+  <rect x="880" y="255" width="300" height="170" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+  <rect x="880" y="255" width="300" height="32" rx="6" fill="#16a34a"/>
+  <text x="1030" y="276" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">OS_ITENS_PECA</text>
+  <g font-size="11" font-family="Consolas, monospace" fill="#1e293b">
+    <text x="892" y="306" font-weight="bold" fill="#0369a1">PK id: UUID</text>
+    <text x="892" y="326" font-weight="bold" fill="#7e22ce">FK ordem_servico_id: UUID (CASCADE)</text>
+    <text x="892" y="346" font-weight="bold" fill="#7e22ce">FK peca_id: UUID (RESTRICT)</text>
+    <text x="892" y="366">   nome_peca: VARCHAR(150) NOT NULL</text>
+    <text x="892" y="386">   quantidade: INT CHECK (&gt; 0)</text>
+    <text x="892" y="406">   valor_unitario: NUMERIC(12,2)</text>
+  </g>
+
+  <!-- Table: PECAS -->
+  <rect x="880" y="450" width="300" height="175" rx="6" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+  <rect x="880" y="450" width="300" height="32" rx="6" fill="#0f172a"/>
+  <text x="1030" y="471" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">PECAS (Inventário Físico)</text>
+  <g font-size="11" font-family="Consolas, monospace" fill="#1e293b">
+    <text x="892" y="500" font-weight="bold" fill="#0369a1">PK id: UUID</text>
+    <text x="892" y="520" font-weight="bold" fill="#b45309">UK codigo: VARCHAR(50) NOT NULL</text>
+    <text x="892" y="540">   nome: VARCHAR(150) NOT NULL</text>
+    <text x="892" y="560">   preco_unitario: NUMERIC(12,2)</text>
+    <text x="892" y="580" font-weight="bold" fill="#15803d">   saldo_estoque: INT CHECK (&gt;= 0)</text>
+    <text x="892" y="600">   estoque_minimo: INT CHECK (&gt;= 0)</text>
+  </g>
+
+  <!-- Table: SERVICOS -->
+  <rect x="445" y="465" width="320" height="160" rx="6" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+  <rect x="445" y="465" width="320" height="32" rx="6" fill="#0f172a"/>
+  <text x="605" y="486" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">SERVICOS (Catálogo Mão de Obra)</text>
+  <g font-size="11" font-family="Consolas, monospace" fill="#1e293b">
+    <text x="458" y="516" font-weight="bold" fill="#0369a1">PK id: UUID</text>
+    <text x="458" y="536" font-weight="bold" fill="#b45309">UK codigo: VARCHAR(50) NOT NULL</text>
+    <text x="458" y="556">   nome: VARCHAR(150) NOT NULL</text>
+    <text x="458" y="576">   preco_padrao: NUMERIC(12,2)</text>
+    <text x="458" y="596">   tempo_estimado_minutos: INT</text>
+  </g>
+
+  <!-- Relations -->
+  <line x1="185" y1="265" x2="185" y2="350" stroke="#334155" stroke-width="2" marker-end="url(#fk-arr)"/>
+  <text x="215" y="312" font-size="10.5" font-weight="bold" fill="#334155">1 : N</text>
+
+  <line x1="325" y1="185" x2="440" y2="230" stroke="#334155" stroke-width="2" marker-end="url(#fk-arr)"/>
+  <text x="382" y="195" font-size="10.5" font-weight="bold" fill="#334155">1 : N</text>
+
+  <line x1="325" y1="430" x2="440" y2="265" stroke="#334155" stroke-width="2" marker-end="url(#fk-arr)"/>
+  <text x="382" y="365" font-size="10.5" font-weight="bold" fill="#334155">1 : N</text>
+
+  <line x1="765" y1="220" x2="875" y2="155" stroke="#334155" stroke-width="2" marker-end="url(#fk-arr)"/>
+  <text x="820" y="175" font-size="10.5" font-weight="bold" fill="#334155">1 : N</text>
+
+  <line x1="765" y1="305" x2="875" y2="325" stroke="#334155" stroke-width="2" marker-end="url(#fk-arr)"/>
+  <text x="820" y="305" font-size="10.5" font-weight="bold" fill="#334155">1 : N</text>
+
+  <line x1="1030" y1="450" x2="1030" y2="430" stroke="#334155" stroke-width="2" marker-end="url(#fk-arr)"/>
+  <text x="1055" y="444" font-size="10.5" font-weight="bold" fill="#334155">1 : N</text>
+</svg>

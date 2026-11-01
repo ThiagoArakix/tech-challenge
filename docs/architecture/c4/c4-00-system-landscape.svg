@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1460 850" width="100%" height="100%" font-family="Segoe UI, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="c4-arrow" markerWidth="12" markerHeight="10" refX="10" refY="5" orient="auto">
+      <polygon points="0 0, 12 5, 0 10" fill="#666666"/>
+    </marker>
+    <filter id="shadow" x="-3%" y="-3%" width="108%" height="108%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000000" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="1460" height="850" fill="#ffffff"/>
+
+  <!-- Enterprise Boundary: Oficina Mecânica [Enterprise] -->
+  <rect x="470" y="95" width="950" height="700" fill="none" stroke="#666666" stroke-width="2" stroke-dasharray="10,6" rx="4"/>
+  <text x="490" y="768" font-size="14" font-weight="bold" fill="#333333">Oficina Mecânica</text>
+  <text x="490" y="785" font-size="11" fill="#666666">[Enterprise]</text>
+
+  <!-- External Person: Cliente da Oficina (Left: x=40..300) -->
+  <g filter="url(#shadow)">
+    <circle cx="170" cy="365" r="36" fill="#08427b" stroke="#052e56" stroke-width="2"/>
+    <rect x="40" y="395" width="260" height="145" rx="18" fill="#08427b" stroke="#052e56" stroke-width="2"/>
+    <text x="170" y="430" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">Cliente da Oficina</text>
+    <text x="170" y="449" text-anchor="middle" font-size="11.5" fill="#cbd5e1">[Person]</text>
+    <text x="170" y="476" text-anchor="middle" font-size="12" fill="#e2e8f0">Pessoa Física ou Jurídica</text>
+    <text x="170" y="494" text-anchor="middle" font-size="12" fill="#e2e8f0">proprietária do veículo em</text>
+    <text x="170" y="512" text-anchor="middle" font-size="12" fill="#e2e8f0">manutenção na oficina.</text>
+  </g>
+
+  <!-- Internal Person 1: Atendente / Recepção (Right Top: x=1130..1390) -->
+  <g filter="url(#shadow)">
+    <circle cx="1260" cy="140" r="32" fill="#686868" stroke="#4a4a4a" stroke-width="2"/>
+    <rect x="1130" y="166" width="260" height="130" rx="16" fill="#686868" stroke="#4a4a4a" stroke-width="2"/>
+    <text x="1260" y="198" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">Atendente / Recepção</text>
+    <text x="1260" y="216" text-anchor="middle" font-size="11" fill="#e2e8f0">[Person]</text>
+    <text x="1260" y="240" text-anchor="middle" font-size="11.5" fill="#f1f5f9">Equipe de atendimento ao</text>
+    <text x="1260" y="256" text-anchor="middle" font-size="11.5" fill="#f1f5f9">cliente, abertura de OS e</text>
+    <text x="1260" y="272" text-anchor="middle" font-size="11.5" fill="#f1f5f9">entrega do veículo.</text>
+  </g>
+
+  <!-- Internal Person 2: Mecânico Operacional (Right Middle: x=1130..1390) -->
+  <g filter="url(#shadow)">
+    <circle cx="1260" cy="365" r="32" fill="#686868" stroke="#4a4a4a" stroke-width="2"/>
+    <rect x="1130" y="391" width="260" height="130" rx="16" fill="#686868" stroke="#4a4a4a" stroke-width="2"/>
+    <text x="1260" y="423" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">Mecânico Operacional</text>
+    <text x="1260" y="441" text-anchor="middle" font-size="11" fill="#e2e8f0">[Person]</text>
+    <text x="1260" y="465" text-anchor="middle" font-size="11.5" fill="#f1f5f9">Especialista técnico que</text>
+    <text x="1260" y="481" text-anchor="middle" font-size="11.5" fill="#f1f5f9">realiza o diagnóstico e</text>
+    <text x="1260" y="497" text-anchor="middle" font-size="11.5" fill="#f1f5f9">executa os reparos da OS.</text>
+  </g>
+
+  <!-- Internal Person 3: Admin / Almoxarife (Right Bottom: x=1130..1390) -->
+  <g filter="url(#shadow)">
+    <circle cx="1260" cy="590" r="32" fill="#686868" stroke="#4a4a4a" stroke-width="2"/>
+    <rect x="1130" y="616" width="260" height="130" rx="16" fill="#686868" stroke="#4a4a4a" stroke-width="2"/>
+    <text x="1260" y="648" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">Admin / Almoxarife</text>
+    <text x="1260" y="666" text-anchor="middle" font-size="11" fill="#e2e8f0">[Person]</text>
+    <text x="1260" y="690" text-anchor="middle" font-size="11.5" fill="#f1f5f9">Responsável pelo catálogo</text>
+    <text x="1260" y="706" text-anchor="middle" font-size="11.5" fill="#f1f5f9">de serviços, estoque de</text>
+    <text x="1260" y="722" text-anchor="middle" font-size="11.5" fill="#f1f5f9">peças e indicadores SLA.</text>
+  </g>
+
+  <!-- Software System 1 (Top Center): Portal Público de Status da OS (x=515..865, y=120..265) -->
+  <g filter="url(#shadow)">
+    <rect x="515" y="120" width="350" height="145" rx="6" fill="#858585" stroke="#5c5c5c" stroke-width="2"/>
+    <text x="690" y="156" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">Portal Público de Status da OS</text>
+    <text x="690" y="175" text-anchor="middle" font-size="11.5" fill="#e2e8f0">[Software System / Public API]</text>
+    <text x="690" y="203" text-anchor="middle" font-size="12" fill="#f8fafc">Permite ao cliente consultar o</text>
+    <text x="690" y="221" text-anchor="middle" font-size="12" fill="#f8fafc">andamento da OS e aprovar ou</text>
+    <text x="690" y="239" text-anchor="middle" font-size="12" fill="#f8fafc">rejeitar o orçamento (LGPD-safe).</text>
+  </g>
+
+  <!-- Software System 2 (Middle Center - Target): Sistema de Gestão da Oficina (x=515..865, y=355..515) -->
+  <g filter="url(#shadow)">
+    <rect x="515" y="355" width="350" height="160" rx="6" fill="#b81d13" stroke="#7f120b" stroke-width="2.5"/>
+    <text x="690" y="395" text-anchor="middle" font-size="16.5" font-weight="bold" fill="#ffffff">Sistema de Gestão da Oficina</text>
+    <text x="690" y="415" text-anchor="middle" font-size="11.5" fill="#fecaca">[Software System (Core)]</text>
+    <text x="690" y="445" text-anchor="middle" font-size="12.5" fill="#ffffff">Gerencia cadastros, abertura de OS,</text>
+    <text x="690" y="463" text-anchor="middle" font-size="12.5" fill="#ffffff">diagnóstico, orçamento automático,</text>
+    <text x="690" y="481" text-anchor="middle" font-size="12.5" fill="#ffffff">baixa ACID de estoque e SLA.</text>
+  </g>
+
+  <!-- Software System 3 (Bottom Center): Serviço de Notificação / E-mail (x=515..865, y=600..735) -->
+  <g filter="url(#shadow)">
+    <rect x="515" y="600" width="350" height="135" rx="6" fill="#858585" stroke="#5c5c5c" stroke-width="2"/>
+    <text x="690" y="636" text-anchor="middle" font-size="15.5" font-weight="bold" fill="#ffffff">Serviço de Notificação / E-mail</text>
+    <text x="690" y="655" text-anchor="middle" font-size="11.5" fill="#e2e8f0">[Software System]</text>
+    <text x="690" y="683" text-anchor="middle" font-size="12" fill="#f8fafc">Comunica ao cliente o código</text>
+    <text x="690" y="701" text-anchor="middle" font-size="12" fill="#f8fafc">público da OS e a disponibilização</text>
+    <text x="690" y="719" text-anchor="middle" font-size="12" fill="#f8fafc">do orçamento para aprovação.</text>
+  </g>
+
+  <!-- Relationships (Lines + Non-Overlapping Labels) -->
+  <!-- 1. Cliente -> Atendente (Routed cleanly ABOVE the Enterprise boundary at y=48) -->
+  <path d="M 170 329 L 170 48 L 1260 48 L 1260 102" fill="none" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="580" y="16" width="260" height="54" fill="#ffffff" rx="4" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="710" y="34" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">Solicita abertura de OS</text>
+  <text x="710" y="49" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">e retira veículo com</text>
+  <text x="710" y="64" text-anchor="middle" font-size="10.5" fill="#666666">[Telefone / Presencial]</text>
+
+  <!-- 2. Cliente -> Portal Público (Corridor x=300..515) -->
+  <line x1="300" y1="415" x2="508" y2="210" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="312" y="280" width="185" height="52" fill="#ffffff" rx="4"/>
+  <text x="404" y="297" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">Consulta status e aprova</text>
+  <text x="404" y="312" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">orçamento pelo</text>
+  <text x="404" y="327" text-anchor="middle" font-size="10.5" fill="#666666">[HTTPS / JSON]</text>
+
+  <!-- 3. Serviço de Notificação -> Cliente (Corridor x=300..515) -->
+  <line x1="515" y1="655" x2="306" y2="505" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="312" y="555" width="185" height="52" fill="#ffffff" rx="4"/>
+  <text x="404" y="572" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">Envia código da OS e</text>
+  <text x="404" y="587" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">aviso de orçamento para</text>
+  <text x="404" y="602" text-anchor="middle" font-size="10.5" fill="#666666">[E-mail / Mensagem]</text>
+
+  <!-- 4. Portal Público -> Sistema de Gestão (Gap y=265..355) -->
+  <line x1="690" y1="265" x2="690" y2="348" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="580" y="276" width="220" height="50" fill="#ffffff" rx="4"/>
+  <text x="690" y="293" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">Encaminha aprovação ou</text>
+  <text x="690" y="308" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">rejeição do orçamento para</text>
+  <text x="690" y="322" text-anchor="middle" font-size="10.5" fill="#666666">[Internal Call]</text>
+
+  <!-- 5. Sistema de Gestão -> Serviço de Notificação (Gap y=515..600) -->
+  <line x1="690" y1="515" x2="690" y2="593" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="595" y="525" width="190" height="50" fill="#ffffff" rx="4"/>
+  <text x="690" y="542" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">Dispara eventos de OS e</text>
+  <text x="690" y="557" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">orçamento usando</text>
+  <text x="690" y="571" text-anchor="middle" font-size="10.5" fill="#666666">[Internal Event]</text>
+
+  <!-- 6. Atendente -> Sistema de Gestão (Corridor x=865..1130) -->
+  <line x1="1130" y1="245" x2="872" y2="395" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="900" y="285" width="195" height="52" fill="#ffffff" rx="4"/>
+  <text x="997" y="302" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">Cadastra cliente/veículo e</text>
+  <text x="997" y="317" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">abre/entrega OS usando</text>
+  <text x="997" y="332" text-anchor="middle" font-size="10.5" fill="#666666">[HTTPS / JWT]</text>
+
+  <!-- 7. Mecânico -> Sistema de Gestão (Corridor x=865..1130) -->
+  <line x1="1130" y1="450" x2="872" y2="450" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="900" y="418" width="195" height="52" fill="#ffffff" rx="4"/>
+  <text x="997" y="435" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">Registra diagnóstico, itens</text>
+  <text x="997" y="450" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">e finaliza OS usando</text>
+  <text x="997" y="465" text-anchor="middle" font-size="10.5" fill="#666666">[HTTPS / JWT]</text>
+
+  <!-- 8. Admin -> Sistema de Gestão (Corridor x=865..1130) -->
+  <line x1="1130" y1="655" x2="872" y2="495" stroke="#666666" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#c4-arrow)"/>
+  <rect x="900" y="555" width="195" height="52" fill="#ffffff" rx="4"/>
+  <text x="997" y="572" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">Gerencia peças, serviços</text>
+  <text x="997" y="587" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#333333">e consulta SLA usando</text>
+  <text x="997" y="602" text-anchor="middle" font-size="10.5" fill="#666666">[HTTPS / JWT]</text>
+
+  <!-- Title Footer -->
+  <text x="40" y="810" font-size="18" font-weight="bold" fill="#111111">[System Landscape] Oficina Mecânica</text>
+  <text x="40" y="830" font-size="12.5" fill="#666666">Diagrama de Panorama de Sistemas (System Landscape - C4 Model)</text>
+</svg>

@@ -238,5 +238,36 @@ class JpaEntitiesTest {
         assertThat(ip1).isNotEqualTo(null);
         assertThat(ip1).isNotEqualTo("outro");
     }
+
+    @Test
+    @DisplayName("Deve testar getters, setters e equals de ServicoJpaEntity")
+    void deveTestarServicoJpaEntity() {
+        UUID id = UUID.randomUUID();
+        Instant agora = Instant.now();
+        ServicoJpaEntity s1 = new ServicoJpaEntity(id, "SRV-1", "Alinhamento", "Alinhamento 3D", BigDecimal.valueOf(120.0), agora, agora);
+        ServicoJpaEntity s2 = new ServicoJpaEntity();
+        s2.setId(id);
+        s2.setCodigo("SRV-1");
+        s2.setNome("Alinhamento");
+        s2.setDescricao("Alinhamento 3D");
+        s2.setValorUnitario(BigDecimal.valueOf(120.0));
+        s2.setCriadoEm(agora);
+        s2.setAtualizadoEm(agora);
+
+        assertThat(s1.getId()).isEqualTo(id);
+        assertThat(s1.getCodigo()).isEqualTo("SRV-1");
+        assertThat(s1.getNome()).isEqualTo("Alinhamento");
+        assertThat(s1.getDescricao()).isEqualTo("Alinhamento 3D");
+        assertThat(s1.getValorUnitario()).isEqualTo(BigDecimal.valueOf(120.0));
+        assertThat(s1.getCriadoEm()).isEqualTo(agora);
+        assertThat(s1.getAtualizadoEm()).isEqualTo(agora);
+
+        assertThat(s1).isEqualTo(s1);
+        assertThat(s1).isEqualTo(s2);
+        assertThat(s1.hashCode()).isEqualTo(s2.hashCode());
+        assertThat(s1).isNotEqualTo(new ServicoJpaEntity());
+        assertThat(s1).isNotEqualTo(null);
+        assertThat(s1).isNotEqualTo("outro");
+    }
 }
 

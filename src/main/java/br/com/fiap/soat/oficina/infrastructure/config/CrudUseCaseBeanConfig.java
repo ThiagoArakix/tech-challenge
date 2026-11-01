@@ -7,10 +7,12 @@ import br.com.fiap.soat.oficina.application.usecase.cliente.ListarClientesUseCas
 import br.com.fiap.soat.oficina.application.usecase.peca.CadastrarPecaUseCase;
 import br.com.fiap.soat.oficina.application.usecase.peca.GerenciarEstoquePecaUseCase;
 import br.com.fiap.soat.oficina.application.usecase.peca.ListarPecasUseCase;
+import br.com.fiap.soat.oficina.application.usecase.servico.GerenciarServicoUseCase;
 import br.com.fiap.soat.oficina.application.usecase.veiculo.BuscarVeiculoUseCase;
 import br.com.fiap.soat.oficina.application.usecase.veiculo.CadastrarVeiculoUseCase;
 import br.com.fiap.soat.oficina.domain.repository.ClienteRepositoryPort;
 import br.com.fiap.soat.oficina.domain.repository.PecaRepositoryPort;
+import br.com.fiap.soat.oficina.domain.repository.ServicoRepositoryPort;
 import br.com.fiap.soat.oficina.domain.repository.VeiculoRepositoryPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +20,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CrudUseCaseBeanConfig {
 
-    // =========================================================================
     // Use Cases de Clientes
-    // =========================================================================
 
     @Bean
     public CadastrarClienteUseCase cadastrarClienteUseCase(ClienteRepositoryPort clienteRepository) {
@@ -42,9 +42,7 @@ public class CrudUseCaseBeanConfig {
         return new ListarClientesUseCase(clienteRepository);
     }
 
-    // =========================================================================
     // Use Cases de Veículos
-    // =========================================================================
 
     @Bean
     public CadastrarVeiculoUseCase cadastrarVeiculoUseCase(
@@ -58,9 +56,7 @@ public class CrudUseCaseBeanConfig {
         return new BuscarVeiculoUseCase(veiculoRepository);
     }
 
-    // =========================================================================
     // Use Cases de Peças
-    // =========================================================================
 
     @Bean
     public CadastrarPecaUseCase cadastrarPecaUseCase(PecaRepositoryPort pecaRepository) {
@@ -75,6 +71,13 @@ public class CrudUseCaseBeanConfig {
     @Bean
     public ListarPecasUseCase listarPecasUseCase(PecaRepositoryPort pecaRepository) {
         return new ListarPecasUseCase(pecaRepository);
+    }
+
+    // Use Cases de Serviços (Catálogo)
+
+    @Bean
+    public GerenciarServicoUseCase gerenciarServicoUseCase(ServicoRepositoryPort servicoRepository) {
+        return new GerenciarServicoUseCase(servicoRepository);
     }
 }
 

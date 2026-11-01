@@ -133,4 +133,28 @@ class VeiculoUseCasesTest {
 
         assertThat(lista).hasSize(1);
     }
+
+    @Test
+    @DisplayName("Deve listar todos os veículos, atualizar e deletar")
+    void deveListarTodosAtualizarEDeletarVeiculo() {
+        when(veiculoRepository.listarTodos()).thenReturn(List.of(veiculoExistente));
+        assertThat(buscarVeiculoUseCase.listarTodos()).hasSize(1);
+
+        when(veiculoRepository.buscarPorId(veiculoExistente.getId())).thenReturn(Optional.of(veiculoExistente));
+        when(veiculoRepository.salvar(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        VeiculoOutput atualizado = buscarVeiculoUseCase.atualizar(veiculoExistente.getId(), "Honda", "Civic Touring", "Preto", 25000);
+        assertThat(atualizado.modelo()).isEqualTo("Civic Touring");
+        assertThat(atualizado.quilometragem()).isEqualTo(25000);
+
+        buscarVeiculoUseCase.deletar(veiculoExistente.getId());
+        verify(veiculoRepository).deletar(veiculoExistente.getId());
+
+        UUID inexistente = UUID.randomUUID();
+        when(veiculoRepository.buscarPorId(inexistente)).thenReturn(Optional.empty());
+        assertThatThrownBy(() -> buscarVeiculoUseCase.atualizar(inexistente, "Honda", "Civic", "Preto", null))
+                .isInstanceOf(RecursoNaoEncontradoException.class);
+        assertThatThrownBy(() -> buscarVeiculoUseCase.deletar(inexistente))
+                .isInstanceOf(RecursoNaoEncontradoException.class);
+    }
 }

@@ -5,10 +5,12 @@ import br.com.fiap.soat.oficina.application.dto.request.AdicionarItemServicoInpu
 import br.com.fiap.soat.oficina.application.dto.response.OrdemServicoOutput;
 import br.com.fiap.soat.oficina.domain.entity.OrdemServico;
 import br.com.fiap.soat.oficina.domain.entity.Peca;
+import br.com.fiap.soat.oficina.domain.entity.Servico;
 import br.com.fiap.soat.oficina.domain.exception.RecursoNaoEncontradoException;
 import br.com.fiap.soat.oficina.domain.exception.SaldoEstoqueInsuficienteException;
 import br.com.fiap.soat.oficina.domain.repository.OrdemServicoRepositoryPort;
 import br.com.fiap.soat.oficina.domain.repository.PecaRepositoryPort;
+import br.com.fiap.soat.oficina.domain.repository.ServicoRepositoryPort;
 import br.com.fiap.soat.oficina.domain.valueobject.Dinheiro;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,19 +39,24 @@ class AdicionarItensOSUseCaseTest {
     @Mock
     private PecaRepositoryPort pecaRepository;
 
+    @Mock
+    private ServicoRepositoryPort servicoRepository;
+
     private AdicionarItensOSUseCase useCase;
 
     private OrdemServico os;
     private Peca peca;
+    private Servico servicoCatalogo;
 
     @BeforeEach
     void setUp() {
-        useCase = new AdicionarItensOSUseCase(ordemServicoRepository, pecaRepository);
+        useCase = new AdicionarItensOSUseCase(ordemServicoRepository, pecaRepository, servicoRepository);
 
         os = OrdemServico.abrirNova(UUID.randomUUID(), UUID.randomUUID(), "Revisão periódica");
         os.iniciarDiagnostico();
 
         peca = Peca.criarNova("AMORT-01", "Amortecedor Dianteiro", "Desc", Dinheiro.de(250.00), 10, 2);
+        servicoCatalogo = Servico.criarNovo("SRV-ALIN", "Alinhamento 3D", "Desc", Dinheiro.de(120.00));
     }
 
     @Test
@@ -73,6 +80,34 @@ class AdicionarItensOSUseCaseTest {
         assertThat(output.itensPeca()).hasSize(1);
         assertThat(output.valorTotal()).isEqualByComparingTo(BigDecimal.valueOf(700.00)); // 200 + 500
         verify(ordemServicoRepository).salvar(any());
+    }
+
+    @Test
+    @DisplayName("Deve adicionar serviço pelo servicoId do catálogo e permitir remoção de itens")
+    void deveAdicionarServicoDoCatalogoERemoverItens() {
+        when(ordemServicoRepository.buscarPorId(os.getId())).thenReturn(Optional.of(os));
+        when(servicoRepository.buscarPorId(servicoCatalogo.getId())).thenReturn(Optional.of(servicoCatalogo));
+        when(pecaRepository.buscarPorId(peca.getId())).thenReturn(Optional.of(peca));
+        when(ordemServicoRepository.salvar(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        OrdemServicoOutput aposServico = useCase.adicionarServico(
+                os.getId(),
+                new AdicionarItemServicoInput(servicoCatalogo.getId(), null, BigDecimal.ONE, null));
+        assertThat(aposServico.itensServico()).hasSize(1);
+        assertThat(aposServico.itensServico().getFirst().descricao()).isEqualTo("Alinhamento 3D");
+        assertThat(aposServico.valorTotalServicos()).isEqualByComparingTo(BigDecimal.valueOf(120.00));
+
+        OrdemServicoOutput aposPeca = useCase.adicionarPeca(os.getId(), new AdicionarItemPecaInput(peca.getId(), 1));
+        assertThat(aposPeca.itensPeca()).hasSize(1);
+
+        UUID itemServicoId = aposServico.itensServico().getFirst().id();
+        UUID itemPecaId = aposPeca.itensPeca().getFirst().id();
+
+        OrdemServicoOutput semServico = useCase.removerServico(os.getId(), itemServicoId);
+        assertThat(semServico.itensServico()).isEmpty();
+
+        OrdemServicoOutput semPeca = useCase.removerPeca(os.getId(), itemPecaId);
+        assertThat(semPeca.itensPeca()).isEmpty();
     }
 
     @Test

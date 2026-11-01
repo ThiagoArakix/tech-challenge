@@ -1,6 +1,6 @@
 # Requisitos Não Funcionais (RNF) - Oficina Mecânica
 
-Classificação dos requisitos não funcionais conforme o mnemônico adotado nas aulas, derivado da taxonomia de Sommerville:
+Classificação dos requisitos não funcionais baseada na taxonomia de Sommerville:
 
 | Grupo | Mnemônico | Categorias |
 | :--- | :--- | :--- |

@@ -2,7 +2,7 @@
 
 * **Data:** 10 de Outubro de 2026
 * **Status:** Aprovado
-* **Autores:** Equipe de Arquitetura de Software SOAT (Fase 1)
+* **Autor:** Thiago Costa Araki
 
 ---
 
@@ -12,7 +12,7 @@ A API RESTful da **Oficina Mecânica** atende a dois perfis distintos de intera�
 1. **Público Externo (Clientes):** Precisam consultar o status do reparo de seu veículo e aprovar orçamentos técnicos de maneira simplificada, sem atrito de registro de senhas ou logins pesados.
 2. **Operadores Internos (Administradores e Mecânicos):** Precisam acessar endpoints administrativos, executar movimentações de estoque, emitir relatórios de métricas e realizar intervenções nas Ordens de Serviço.
 
-Era imperativo garantir uma estratégia de segurança escalável, independente de sessões em memória no servidor (*stateless*), protegida contra falsificação e em total conformidade com as diretrizes do edital da Fase 1 da SOAT.
+Era necessário definir uma estratégia de segurança escalável, independente de sessões em memória no servidor (*stateless*) e protegida contra falsificação.
 
 ---
 
@@ -57,5 +57,5 @@ Decidiu-se pela implementação de autenticação e autorização **Stateless ba
 2. **HTTP Basic Authentication em Cada Requisição:**
    - *Motivo da rejeição:* Exige tráfego repetido de usuário e senha na rede a cada chamada, aumentando superfície de ataque e sem suporte a expiração transitória de credencial.
 3. **Servidor Externo de Identidade OAuth2 / OpenID Connect (ex.: Keycloak ou Auth0):**
-   - *Motivo da rejeição:* Introduziria complexidade operacional excessiva e dependência de infraestrutura externa pesada desnecessária para o escopo e critérios avaliativos da Fase 1.
+   - *Motivo da rejeição:* Introduziria complexidade operacional excessiva e dependência de infraestrutura externa desnecessária para o escopo atual do sistema.
 

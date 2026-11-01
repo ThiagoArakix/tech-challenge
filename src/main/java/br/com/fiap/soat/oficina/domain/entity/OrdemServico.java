@@ -61,9 +61,7 @@ public class OrdemServico {
                 Instant.now(), null, null, null, Instant.now(), null);
     }
 
-    // =========================================================================
-    // Gestão de Itens (com bloqueio após sair da fase de diagnóstico)
-    // =========================================================================
+    // Gestão de Itens (bloqueado após sair da fase de diagnóstico)
 
     public void adicionarItemServico(ItemServicoOrdem item) {
         validarPermissaoEdicaoItens();
@@ -106,9 +104,7 @@ public class OrdemServico {
         }
     }
 
-    // =========================================================================
     // Cálculo Automático de Orçamento
-    // =========================================================================
 
     public Dinheiro getValorTotalServicos() {
         return this.itensServico.stream()
@@ -126,9 +122,7 @@ public class OrdemServico {
         return getValorTotalServicos().somar(getValorTotalPecas());
     }
 
-    // =========================================================================
-    // Máquina de Estados Finita da Ordem de Serviço
-    // =========================================================================
+    // Máquina de Estados da Ordem de Serviço
 
     public void transicionarPara(StatusOS novoStatus) {
         if (!this.status.podeTransicionarPara(novoStatus)) {
@@ -168,6 +162,13 @@ public class OrdemServico {
         this.dataAprovacao = Instant.now();
     }
 
+    public void rejeitar() {
+        if (this.status != StatusOS.AGUARDANDO_APROVACAO) {
+            throw new TransicaoStatusInvalidaException(this.status, StatusOS.CANCELADA);
+        }
+        transicionarPara(StatusOS.CANCELADA);
+    }
+
     public void finalizar() {
         transicionarPara(StatusOS.FINALIZADA);
         this.dataFinalizacao = Instant.now();
@@ -182,9 +183,7 @@ public class OrdemServico {
         transicionarPara(StatusOS.CANCELADA);
     }
 
-    // =========================================================================
     // Getters
-    // =========================================================================
 
     public UUID getId() {
         return id;
