@@ -336,6 +336,6 @@ A documentação de arquitetura, DDD e segurança está versionada no repositór
 
 Vídeo de apresentação da arquitetura, modelagem DDD, testes automatizados e demonstração da API:
 
-* 🎥 **Link do Vídeo no YouTube:** [https://www.youtube.com/watch?v=SUBSTITUIR_LINK_DO_VIDEO](https://www.youtube.com/watch?v=SUBSTITUIR_LINK_DO_VIDEO)
+* 🎥 **Link do Vídeo no YouTube:** [https://youtu.be/S6FY4tGEzQU](https://youtu.be/S6FY4tGEzQU)
 
 
